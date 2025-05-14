@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 
-export default function CupGuide() {
+export default function BoxGuide(): React.JSX.Element {
   const router = useRouter();
 
   return (
@@ -30,7 +30,10 @@ export default function CupGuide() {
       </View>
 
       {/* 스크롤 가능한 내용 */}
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         <Image source={require('../../assets/images/guideline/box1.png')} style={styles.image} />
         <Text style={styles.description}>
           박스에 붙은 테이프, 송장 등을{"\n"}
@@ -38,12 +41,11 @@ export default function CupGuide() {
         </Text>
 
         <Image source={require('../../assets/images/guideline/box2.png')} style={styles.image} />
-        <Text style={styles.description}>
+        <Text style={styles.description_last}>
           박스를 납작하게 만들어준 뒤, {"\n"}
           종이로 분리배출해요.
         </Text>
       </ScrollView>
-
 
       {/* 하단 푸터 고정 */}
       <View style={styles.footer}>
@@ -59,7 +61,6 @@ export default function CupGuide() {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff', paddingTop: 80, alignItems: 'center' },
@@ -91,6 +92,9 @@ const styles = StyleSheet.create({
     fontFamily: 'ChangwonDangamRound',
     fontWeight: '600',
     color: '#9E9E9E',
+  },
+  scrollContent: {
+    alignItems: 'center',
   },
   image: {
     width: 280,
