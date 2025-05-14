@@ -37,7 +37,7 @@ export default function CameraScreen(): React.JSX.Element {
     } as any);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/analyze", {
+      const response = await fetch("http://192.168.0.4:5000/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
@@ -48,13 +48,22 @@ export default function CameraScreen(): React.JSX.Element {
       const result = await response.json();
       console.log("분석 결과:", result);
 
-      alert(
-        `탐지 결과: ${result.detected.join(", ")}\n분리배출 방법: ${result.instruction}`
-      );
-    } catch (error) {
-      console.error("❌ 서버 전송 실패:", error);
+      const labels = result.detections.map((item: any) => item.name).join(", ");
+    const explanations = result.explanations;
+
+    let explanationText = "";
+    for (const [label, guide] of Object.entries(explanations)) {
+      explanationText += ` ${label} 분류:\n${guide}\n\n`;
     }
-  };
+
+    alert(
+      `탐지된 항목: ${labels}\n\n${explanationText}`
+    );
+  } catch (error) {
+    console.error("서버 전송 실패:", error);
+    alert("서버와의 연결 중 오류가 발생했습니다.");
+  }
+};
 
   const takePhoto = async (): Promise<void> => {
     if (cameraRef.current && !photoTaken) {
