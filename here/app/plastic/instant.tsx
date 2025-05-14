@@ -9,13 +9,12 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 
-export default function CupGuide() {
+export default function InstantContainerGuide(): React.JSX.Element {
   const router = useRouter();
-
   return (
     <View style={styles.container}>
       {/* 상단 제목 */}
-      <Text style={styles.title}>샴푸통 분리배출</Text>
+      <Text style={styles.title}>즉석밥 용기 분리배출</Text>
 
       {/* 탭 고정 */}
       <View style={styles.tabContainer}>
@@ -24,10 +23,10 @@ export default function CupGuide() {
             <Text style={styles.tabText}>커피컵</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/delivery')}>
-            <Text style={styles.tabText}>배달 용기</Text>
+            <Text style={styles.tabText_selected}>배달 용기</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/shampoo')}>
-            <Text style={styles.tabText_selected}>샴푸통</Text>
+            <Text style={styles.tabText}>샴푸통</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/instant')}>
             <Text style={styles.tabText}>즉석밥 용기</Text>
@@ -40,27 +39,21 @@ export default function CupGuide() {
 
       {/* 스크롤 가능한 내용 */}
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <Image source={require('../../assets/images/guideline/shampoo1.png')} style={styles.image} />
+        <Image source={require('../../assets/images/guideline/hetbahn1.png')} style={styles.image} />
         <Text style={styles.description}>
-          샴푸통은{"\n"}
-          몸통과 펌프를 분리해줘요.
+          즉석밥 용기는{"\n"}
+          뚜껑을 제거해줘요.
         </Text>
 
-        <Image source={require('../../assets/images/guideline/shampoo2.png')} style={styles.image} />
+        <Image source={require('../../assets/images/guideline/hetbahn2.png')} style={styles.image} />
         <Text style={styles.description}>
-          펌프는{"\n"}
-          일반 쓰레기로 배출해요.
+          즉석밥 용기는{"\n"}
+          깨끗히 씻어줘요.
         </Text>
 
-        <Image source={require('../../assets/images/guideline/shampoo3.png')} style={styles.image} />
+        <Image source={require('../../assets/images/guideline/hetbahn3.png')} style={styles.image} />
         <Text style={styles.description_last}>
-          샴푸통은{"\n"}
-          내부를 깨끗하게 씻어줘요.
-        </Text>
-
-        <Image source={require('../../assets/images/guideline/shampoo4.png')} style={styles.image} />
-        <Text style={styles.description_last}>
-          깨끗해진 샴푸통은{"\n"}
+          깨끗하게 씻은 용기는{"\n"}
           플라스틱에 배출해요.
         </Text>
       </ScrollView>
@@ -111,6 +104,9 @@ const styles = StyleSheet.create({
         fontFamily: 'ChangwonDangamRound',
         fontWeight: '600',
         color: '#9E9E9E',
+    },
+    scrollContent: {
+      alignItems: 'center',
     },
     image: {
         width: 280,
