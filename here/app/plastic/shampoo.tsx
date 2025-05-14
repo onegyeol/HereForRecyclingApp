@@ -9,44 +9,59 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 
-export default function CupGuide() {
+export default function ShampooGuide(): React.JSX.Element {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
       {/* 상단 제목 */}
-      <Text style={styles.title}>투명 페트병 분리배출</Text>
+      <Text style={styles.title}>샴푸통 분리배출</Text>
 
       {/* 탭 고정 */}
       <View style={styles.tabContainer}>
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/pet/transparent')}>
-            <Text style={styles.tabText_selected}>투명 페트병</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/cup')}>
+            <Text style={styles.tabText}>커피컵</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/pet/color')}>
-            <Text style={styles.tabText}>유색 페트병</Text>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/delivery')}>
+            <Text style={styles.tabText}>배달 용기</Text>
           </TouchableOpacity>
-        </View>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/shampoo')}>
+            <Text style={styles.tabText_selected}>샴푸통</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/instant')}>
+            <Text style={styles.tabText}>즉석밥 용기</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/straw')}>
+            <Text style={styles.tabText}>빨대</Text>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
 
       {/* 스크롤 가능한 내용 */}
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <Image source={require('../../assets/images/guideline/pet1.png')} style={styles.image} />
+        <Image source={require('../../assets/images/guideline/shampoo1.png')} style={styles.image} />
         <Text style={styles.description}>
-          투명 페트병은{"\n"}
-          안의 내용물을 비워줘요.
+          샴푸통은{"\n"}
+          몸통과 펌프를 분리해줘요.
         </Text>
 
-        <Image source={require('../../assets/images/guideline/pet2.png')} style={styles.image} />
+        <Image source={require('../../assets/images/guideline/shampoo2.png')} style={styles.image} />
         <Text style={styles.description}>
-          투명 페트병 라벨을{"\n"}
-          깔끔하게 떼줘요.
+          펌프는{"\n"}
+          일반 쓰레기로 배출해요.
         </Text>
 
-        <Image source={require('../../assets/images/guideline/pet3.png')} style={styles.image} />
+        <Image source={require('../../assets/images/guideline/shampoo3.png')} style={styles.image} />
         <Text style={styles.description_last}>
-          페트병 뚜껑을 닫고{"\n"}
-          찌그러트려서 페트병에 배출해요.
+          샴푸통은{"\n"}
+          내부를 깨끗하게 씻어줘요.
+        </Text>
+
+        <Image source={require('../../assets/images/guideline/shampoo4.png')} style={styles.image} />
+        <Text style={styles.description_last}>
+          깨끗해진 샴푸통은{"\n"}
+          플라스틱에 배출해요.
         </Text>
       </ScrollView>
 
@@ -75,7 +90,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     tabContainer: {
-        justifyContent: 'center',
+        flexDirection: 'row',
         paddingHorizontal: 10,
         marginBottom: 20,
     },
@@ -96,6 +111,9 @@ const styles = StyleSheet.create({
         fontFamily: 'ChangwonDangamRound',
         fontWeight: '600',
         color: '#9E9E9E',
+    },
+    scrollContent: {
+      alignItems: 'center',
     },
     image: {
         width: 280,

@@ -9,9 +9,8 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 
-export default function CupGuide() {
+export default function InstantContainerGuide(): React.JSX.Element {
   const router = useRouter();
-
   return (
     <View style={styles.container}>
       {/* 상단 제목 */}
@@ -24,13 +23,13 @@ export default function CupGuide() {
             <Text style={styles.tabText}>커피컵</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/delivery')}>
-            <Text style={styles.tabText}>배달 용기</Text>
+            <Text style={styles.tabText_selected}>배달 용기</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/shampoo')}>
             <Text style={styles.tabText}>샴푸통</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/instant')}>
-            <Text style={styles.tabText_selected}>즉석밥 용기</Text>
+            <Text style={styles.tabText}>즉석밥 용기</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/straw')}>
             <Text style={styles.tabText}>빨대</Text>
@@ -105,6 +104,9 @@ const styles = StyleSheet.create({
         fontFamily: 'ChangwonDangamRound',
         fontWeight: '600',
         color: '#9E9E9E',
+    },
+    scrollContent: {
+      alignItems: 'center',
     },
     image: {
         width: 280,

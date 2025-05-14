@@ -6,53 +6,49 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  ImageSourcePropType,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 
-export default function CupGuide() {
+export default function CupGuide(): React.JSX.Element {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
       {/* 상단 제목 */}
-      <Text style={styles.title}>박스 분리배출</Text>
-
-      {/* 탭 고정 */}
-      <View style={styles.tabContainer}>
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/paper/box')}>
-            <Text style={styles.tabText_selected}>박스</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/paper/note')}>
-            <Text style={styles.tabText}>책 종류</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <Text style={styles.title}>캔 분리배출</Text>
 
       {/* 스크롤 가능한 내용 */}
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <Image source={require('../../assets/images/guideline/box1.png')} style={styles.image} />
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <Image source={require('../assets/images/guideline/can1.png')} style={styles.image} />
         <Text style={styles.description}>
-          박스에 붙은 테이프, 송장 등을{"\n"}
-          깔끔하게 떼줘요.
+          캔은{"\n"}
+          내부를 깨끗히 세척해줘요.
         </Text>
 
-        <Image source={require('../../assets/images/guideline/box2.png')} style={styles.image} />
+        <Image source={require('../assets/images/guideline/can2.png')} style={styles.image} />
         <Text style={styles.description}>
-          박스를 납작하게 만들어준 뒤, {"\n"}
-          종이로 분리배출해요.
+          캔은{"\n"}
+          찌그러트려서
+        </Text>
+
+        <Image source={require('../assets/images/guideline/can3.png')} style={styles.image} />
+        <Text style={styles.description_last}>
+          캔에 배출해요{"\n"}
         </Text>
       </ScrollView>
-
 
       {/* 하단 푸터 고정 */}
       <View style={styles.footer}>
         <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/camera')}>
-          <Image source={require('../../assets/images/camera.png')} style={styles.icon} />
+          <Image source={require('../assets/images/camera.png')} style={styles.icon} />
           <Text style={[styles.footerText, { color: '#2e4010' }]}>분리배출 카메라</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/category')}>
-          <Image source={require('../../assets/images/tree_checked.png')} style={styles.icon} />
+          <Image source={require('../assets/images/tree_checked.png')} style={styles.icon} />
           <Text style={styles.footerText}>분리배출 정보</Text>
         </TouchableOpacity>
       </View>
@@ -60,37 +56,21 @@ export default function CupGuide() {
   );
 }
 
-
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff', paddingTop: 80, alignItems: 'center' },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingTop: 80,
+    alignItems: 'center',
+  },
   title: {
     fontSize: 30,
     fontFamily: 'ChangwonDangamRoundBold',
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  tabContainer: {
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-    marginBottom: 20,
-  },
-  tab: {
-    backgroundColor: '#eee',
-    borderRadius: 16,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    marginRight: 10,
-  },
-  tabText_selected: {
-    fontSize: 14,
-    fontFamily: 'ChangwonDangamRound',
-    fontWeight: '600',
-  },
-  tabText: {
-    fontSize: 14,
-    fontFamily: 'ChangwonDangamRound',
-    fontWeight: '600',
-    color: '#9E9E9E',
+  scrollContent: {
+    alignItems: 'center',
   },
   image: {
     width: 280,
