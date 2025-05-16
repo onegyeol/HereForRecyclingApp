@@ -3,18 +3,18 @@ import { Slot, useRouter } from 'expo-router';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function PlasticLayout() {
+export default function VinylLayout() {
   const router = useRouter();
 
   return ( <View style={styles.container}>
-      <Text style={styles.title}>플라스틱 분리배출 방법</Text>
+      <Text style={styles.title}>비닐류 분리배출 방법</Text>
 
       <View style={styles.content}>
         <Slot />
       </View>
 
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/camera')}>
+        <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/mainScreen')}>
           <Image source={require('../../assets/images/camera.png')} style={styles.icon} />
           <Text style={[styles.footerText, { color: '#2e4010' }]}>분리배출 카메라</Text>
         </TouchableOpacity>

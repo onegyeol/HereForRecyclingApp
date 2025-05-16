@@ -24,7 +24,7 @@ const Main: React.FC = () => {
       </View>
 
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/camera')}>
+        <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/mainScreen')}>
           <Image source={cameraIcon} style={styles.icon} />
           <Text style={[styles.footerText, { color: '#2e4010' }]}>분리배출 카메라</Text>
         </TouchableOpacity>

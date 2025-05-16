@@ -35,7 +35,7 @@ export default function Category(): JSX.Element {
       </ScrollView>
 
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/camera')}>
+        <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/mainScreen')}>
           <Image source={require('../assets/images/camera.png')} style={styles.icon} />
           <Text style={[styles.footerText, { color: '#2e4010' }]}>분리배출 카메라</Text>
         </TouchableOpacity>
