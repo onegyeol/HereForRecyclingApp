@@ -30,6 +30,8 @@ export default function RootLayout() {
         <Stack.Screen name="can" options={{ headerShown: false }} />
         <Stack.Screen name="paper" options={{ headerShown: false }} />
         <Stack.Screen name="vinyl" options={{ headerShown: false }} />
+        <Stack.Screen name="result" options={{ headerShown: false }} />
+        <Stack.Screen name="mainScreen" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
