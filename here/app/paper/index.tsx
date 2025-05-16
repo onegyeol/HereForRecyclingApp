@@ -14,12 +14,7 @@ const PlasticIndex: React.FC = () => {
 
   return (
     <>
-      {/* 헤더 숨기기 */}
-      <Stack.Screen options={{ headerShown: false }} />
-
       <View style={styles.container}>
-        <Text style={styles.title}>종이 분리배출 방법</Text>
-
         <View style={styles.tabContainer}>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <TouchableOpacity style={styles.tab} onPress={() => router.push('/paper/box' as const)}>
@@ -35,17 +30,6 @@ const PlasticIndex: React.FC = () => {
           <Text style={styles.mainText}>종이 분리배출 항목을 선택해주세요.</Text>
           <Text style={styles.subText}>각 항목별로 정확한 분리배출 방법이 안내됩니다.</Text>
         </View>
-
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/camera')}>
-            <Image source={require('../../assets/images/camera.png')} style={styles.icon} />
-            <Text style={[styles.footerText, { color: '#2e4010' }]}>분리배출 카메라</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/category')}>
-            <Image source={require('../../assets/images/tree.png')} style={styles.icon} />
-            <Text style={styles.footerText}>분리배출 정보</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </>
   );
@@ -54,7 +38,7 @@ const PlasticIndex: React.FC = () => {
 export default PlasticIndex;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 80, backgroundColor: '#fff' },
+  container: { flex: 1,backgroundColor: '#fff' },
   title: {
     fontSize: 30,
     fontFamily: 'ChangwonDangamRoundBold',
@@ -96,29 +80,5 @@ const styles = StyleSheet.create({
     fontFamily: 'ChangwonDangamRound',
     color: '#555',
     textAlign: 'center',
-    marginBottom: 475,
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 10,
-    paddingBottom: 24,
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    backgroundColor: '#fff',
-  },
-  footerItem: {
-    alignItems: 'center',
-  },
-  icon: {
-    width: 40,
-    height: 40,
-    marginBottom: 4,
-  },
-  footerText: {
-    fontFamily: 'ChangwonDangamRound',
-    fontSize: 12,
-    fontWeight: '500',
-    color: '#000',
   },
 });
