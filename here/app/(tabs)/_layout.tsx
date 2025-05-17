@@ -7,7 +7,7 @@ export default function Layout() {
       <Stack.Screen
         name="camera"
         options={{
-          headerShown: false, // ✅ 헤더 제거
+          headerShown: false,  
         }}
       />
     </Stack>

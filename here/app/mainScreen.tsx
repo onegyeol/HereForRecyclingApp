@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
 import { useRouter } from 'expo-router';
-
+import FooterNavigation from '../components/FooterNavigation';
 const Main: React.FC = () => {
   const router = useRouter();
 
@@ -18,21 +18,12 @@ const Main: React.FC = () => {
       <View style={styles.middleSection}>
         <Text style={styles.middleText}>이건 어떻게 버리지?</Text>
         <Text style={styles.subText}>AI한테 물어보세요 !</Text>
-        <TouchableOpacity style={styles.button} onPress={() => router.push('/camera')}>
+        <TouchableOpacity style={styles.button} onPress={() => router.navigate('/camera')}>
           <Text style={styles.buttonText}>사진 찍기</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/mainScreen')}>
-          <Image source={cameraIcon} style={styles.icon} />
-          <Text style={[styles.footerText, { color: '#2e4010' }]}>분리배출 카메라</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/category')}>
-          <Image source={treeIcon} style={styles.icon} />
-          <Text style={styles.footerText}>분리배출 정보</Text>
-        </TouchableOpacity>
-      </View>
+      <FooterNavigation />
     </View>
   );
 };

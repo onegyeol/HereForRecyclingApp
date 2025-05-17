@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'expo-router';
 import { usePhotoStore } from '../app/stores/ImageStores';
 import Svg, { Rect } from 'react-native-svg';
+import FooterNavigation from '../components/FooterNavigation';
 
 interface Detection {
     name: string;
@@ -37,7 +38,7 @@ export default function ResultScreen() {
 
     useEffect(() => {
         fetch('http://192.168.0.4:5000/result')
-            .then((res) => res.json())  // ✅ 이제 text가 아니라 json으로 받아도 OK
+            .then((res) => res.json())   
             .then((json) => {
                 console.log(json);
                 setData(json);
@@ -71,14 +72,15 @@ export default function ResultScreen() {
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scroll}>
             {photoUri && (
-                <View style={{ width: 941, height: 2048 }}>
+                <View style={styles.imageWrapper}>
                     <ImageBackground
-                    source={{ uri: photoUri }}
-                    style={{ width: '100%', height: '100%' }}
+                        source={{ uri: photoUri }}
+                        style={{ flex: 1 }}
+                        resizeMode="cover"
                     >
-                    <Svg style={{ width: '100%', height: '100%', position: 'absolute' }}>
+                    <Svg style={StyleSheet.absoluteFill}>
                         {data?.detections?.map((box, index) => (
-                        <Rect
+                            <Rect
                             key={index}
                             x={box.xmin}
                             y={box.ymin}
@@ -88,7 +90,7 @@ export default function ResultScreen() {
                             strokeWidth="2"
                             fill="transparent"
                         />
-                        ))}
+                    ))}
                     </Svg>
                     </ImageBackground>
                 </View>
@@ -116,30 +118,7 @@ export default function ResultScreen() {
 
             </ScrollView>
 
-            <View style={styles.navButtons}>
-                <TouchableOpacity
-                    style={styles.footerItem}
-                    onPress={() => router.push("/camera")}
-                >
-                    <Image
-                        source={require("../assets/images/camera_checked.png")}
-                        style={styles.icon}
-                    />
-                    <Text style={[styles.footerText, { color: "#2e4010" }]}>
-                        분리배출 카메라
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.footerItem}
-                    onPress={() => router.push("/category")}
-                >
-                    <Image
-                        source={require("../assets/images/tree.png")}
-                        style={styles.icon}
-                    />
-                    <Text style={styles.footerText}>분리배출 정보</Text>
-                </TouchableOpacity>
-            </View>
+            <FooterNavigation />
         </View>
     );
 }
@@ -207,4 +186,11 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: '#000',
     },
+    imageWrapper: {
+        width: '90%',
+        aspectRatio: 3 / 4,
+        alignSelf: 'center',
+        marginBottom: 24,
+        position: 'relative',
+        },
 });

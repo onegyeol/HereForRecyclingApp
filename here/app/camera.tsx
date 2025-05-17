@@ -1,11 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import {
   CameraView,
   CameraCapturedPicture,
@@ -14,6 +8,7 @@ import {
 import { BlurView } from "expo-blur";
 import { usePhotoStore } from '../app/stores/ImageStores';
 import { useRouter } from "expo-router";
+import FooterNavigation from '../components/FooterNavigation';
 
 export default function CameraScreen(): React.JSX.Element {
   const [permission, requestPermission] = useCameraPermissions();
@@ -118,42 +113,18 @@ export default function CameraScreen(): React.JSX.Element {
         </BlurView>
       )}
 
-      <View style={styles.footer}>
-        <TouchableOpacity
-          onPress={takePhoto}
-          style={[styles.captureButton, photoTaken && styles.disabledButton]}
-          disabled={photoTaken}
-        >
-          <Text style={styles.captureText}>
-            {photoTaken ? "이미 촬영됨" : "촬영"}
-          </Text>
-        </TouchableOpacity>
-
-        <View style={styles.navButtons}>
+        {!showGuide && (
           <TouchableOpacity
-            style={styles.footerItem}
-            onPress={() => router.push("/mainScreen")}
+            onPress={takePhoto}
+            style={[styles.captureButton, photoTaken && styles.disabledButton]}
+            disabled={photoTaken}
           >
-            <Image
-              source={require("../assets/images/camera_checked.png")}
-              style={styles.icon}
-            />
-            <Text style={[styles.footerText, { color: "#2e4010" }]}>
-              분리배출 카메라
+            <Text style={styles.captureText}>
+              {photoTaken ? "이미 촬영됨" : "촬영"}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.footerItem}
-            onPress={() => router.push("/category")}
-          >
-            <Image
-              source={require("../assets/images/tree.png")}
-              style={styles.icon}
-            />
-            <Text style={styles.footerText}>분리배출 정보</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+        )}
+      <FooterNavigation />
     </View>
   );
 }
@@ -161,22 +132,23 @@ export default function CameraScreen(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#000" },
   camera: { flex: 1 },
-  footer: {
-    backgroundColor: "#fff",
-    paddingVertical: 16,
-    borderTopWidth: 1,
-    borderTopColor: "#ccc",
-    alignItems: "center",
-  },
   captureButton: {
-    backgroundColor: "#2e4010",
-    padding: 12,
-    borderRadius: 10,
-    marginBottom: 12,
+    backgroundColor: "#fff",               
+    width: 80,
+    height: 50,
+    borderRadius: 10,                      
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",                 
+    bottom: 120,                           
+    alignSelf: "center",
+    borderWidth: 3,
+    borderColor: "#2e4010",
+    zIndex: 1,
   },
   disabledButton: { backgroundColor: "#999" },
   captureText: {
-    color: "#fff",
+    color: "#2e4010",
     fontFamily: "ChangwonDangamRound",
     fontWeight: "bold",
     fontSize: 16,
@@ -210,6 +182,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 30,
+    zIndex: 10,
   },
   guideImage: {
     width: 250,
@@ -241,7 +214,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 10,
+    
   },
   loadingContainer: {
     alignItems: 'center',

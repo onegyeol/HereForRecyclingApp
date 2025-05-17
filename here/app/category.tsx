@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import FooterNavigation from '../components/FooterNavigation';
 
 export default function Category(): JSX.Element {
   const router = useRouter();
@@ -34,16 +35,7 @@ export default function Category(): JSX.Element {
         </TouchableOpacity>
       </ScrollView>
 
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/mainScreen')}>
-          <Image source={require('../assets/images/camera.png')} style={styles.icon} />
-          <Text style={[styles.footerText, { color: '#2e4010' }]}>분리배출 카메라</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.footerItem} onPress={() => router.push('/category')}>
-          <Image source={require('../assets/images/tree_checked.png')} style={styles.icon} />
-          <Text style={styles.footerText}>분리배출 정보</Text>
-        </TouchableOpacity>
-      </View>
+      <FooterNavigation />
     </View>
   );
 }
@@ -53,7 +45,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: 20,
-    paddingHorizontal: 24,
   },
   title: {
     fontSize: 30,
@@ -69,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 16, // ⚠️ `gap`은 일부 RN 버전에서 지원 안 될 수 있어 주의
+    gap: 16, 
   },
   item: {
     backgroundColor: '#EEEEEE',
