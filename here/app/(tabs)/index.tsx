@@ -1,10 +1,10 @@
 import { View } from "react-native";
-import Main from '../../screens/Main.js';
+import MainScreen from '../mainScreen';
 
 export default function Index() {
   return (
     <View style={{ flex: 1 }}>
-      <Main />
+      <MainScreen />
     </View>
   );
 }
