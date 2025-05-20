@@ -13,6 +13,7 @@ import { useRouter } from 'expo-router';
 import { usePhotoStore } from '../app/stores/ImageStores';
 import Svg, { Rect } from 'react-native-svg';
 import FooterNavigation from '../components/FooterNavigation';
+import * as Speech from 'expo-speech'; // TTS 
 
 interface Detection {
     name: string;
@@ -26,8 +27,8 @@ interface ResultData {
     detections: Detection[];
     explanations: string; 
     image_url?: string; // 선택적 필드
-    original_width?: number;   // 👉 원본 이미지의 너비
-    original_height?: number;  // 👉 원본 이미지의 높이
+    original_width?: number;   // 원본 이미지의 너비
+    original_height?: number;  // 원본 이미지의 높이
 }
 
 export default function ResultScreen() {
@@ -37,17 +38,34 @@ export default function ResultScreen() {
     const { photoUri } = usePhotoStore();
 
     useEffect(() => {
+        let isMounted = true;
         fetch('http://192.168.0.4:5000/result')
             .then((res) => res.json())   
             .then((json) => {
-                console.log(json);
+                console.log("받은 데이터:", json);
                 setData(json);
                 setLoading(false);
+
+                if (json.explanations && json.explanations.trim().length > 0) {
+                    console.log("TTS 실행:", json.explanations);
+                    Speech.speak(json.explanations, {
+                        language: 'ko-KR',
+                        pitch: 1.0,
+                        rate: 1.0,
+                    });
+                }
             })
             .catch((error) => {
+                if (!isMounted) return;
                 console.error('분석 결과 가져오기 실패:', error);
                 setLoading(false);
             });
+
+            return () => {
+                isMounted = false;
+                Speech.stop();
+                console.log("TTS 정지");
+            };
     }, []);
 
 
@@ -55,7 +73,7 @@ export default function ResultScreen() {
         return (
             <View style={styles.centered}>
                 <ActivityIndicator size="large" color="#2e4010" />
-                <Text style={styles.loadingText}>분석 결과 불러오는 중...🧚‍♀️</Text>
+                <Text style={styles.loadingText}>분석 결과 불러오는 중...</Text>
             </View>
         );
     }
@@ -110,10 +128,30 @@ export default function ResultScreen() {
                 )}
 
                 {data?.explanations && (
-                <View style={styles.block}>
-                    <Text style={styles.blockTitle}>분리배출 방법</Text>
-                    <Text style={styles.blockContent}>{data.explanations}</Text>
-                </View>
+                    <View style={styles.block}>
+                        <Text style={styles.blockTitle}>분리배출 방법</Text>
+                        <Text style={styles.blockContent}>{data.explanations}</Text>
+                
+                        <TouchableOpacity
+                            onPress={() => {
+                                Speech.stop();
+                                Speech.speak(data.explanations, {
+                                language: 'ko-KR',
+                                pitch: 1.0,
+                                rate: 1.0,
+                            });
+                        }}
+                        style={{
+                            marginTop:12,
+                            padding:10,
+                            backgroundColor: '#2e4010',
+                            borderRadius: 8,
+                            alignItems: 'center',
+                        }}
+                        >
+                            <Text style={{color: 'white', fontWeight: 'bold' }}> 다시 듣기 </Text>
+                        </TouchableOpacity>
+                    </View>
                 )}
 
             </ScrollView>

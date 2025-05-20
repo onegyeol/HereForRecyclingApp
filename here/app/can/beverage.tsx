@@ -38,8 +38,7 @@ export default function BeverageGuide(): React.JSX.Element {
 
         <Image source={require('../../assets/images/guideline/can2.png')} style={styles.image} />
         <Text style={styles.description}>
-          캔은{"\n"}
-          찌그러트려서
+          이후 세로로 찌그러트려서
         </Text>
 
         <Image source={require('../../assets/images/guideline/can3.png')} style={styles.image} />
