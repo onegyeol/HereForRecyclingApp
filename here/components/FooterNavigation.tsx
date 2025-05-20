@@ -1,6 +1,6 @@
+import { usePathname, useRouter } from 'expo-router';
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { useRouter, usePathname } from 'expo-router';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function FooterNavigation() {
   const router = useRouter();
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: 10,
-    paddingBottom: 24,
+    paddingBottom: 37,
     borderTopWidth: 1,
     borderTopColor: '#ccc',
     backgroundColor: '#fff',
