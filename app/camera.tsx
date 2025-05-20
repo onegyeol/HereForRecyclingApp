@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { BlurView } from "expo-blur";
 import {
-  CameraView,
   CameraCapturedPicture,
+  CameraView,
   useCameraPermissions,
 } from "expo-camera";
-import { BlurView } from "expo-blur";
-import { usePhotoStore } from '../app/stores/ImageStores';
 import { useRouter } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { usePhotoStore } from '../app/stores/ImageStores';
 import FooterNavigation from '../components/FooterNavigation';
 
 export default function CameraScreen(): React.JSX.Element {
@@ -36,6 +36,8 @@ export default function CameraScreen(): React.JSX.Element {
 
 
     try {
+      setIsLoading(true);
+      
       const response = await fetch("http://192.168.0.4:5000/analyze", {
         method: "POST",
         headers: {
@@ -64,7 +66,7 @@ export default function CameraScreen(): React.JSX.Element {
   const takePhoto = async (): Promise<void> => {
     if (cameraRef.current && !photoTaken) {
       const photo: CameraCapturedPicture = await cameraRef.current.takePictureAsync();
-      console.log("📸 사진 URI:", photo.uri);
+      console.log("사진 URI:", photo.uri);
       setPhotoTaken(true);
       setPhotoUri(photo.uri);
       await sendPhotoToServer(photo.uri);
@@ -75,7 +77,7 @@ export default function CameraScreen(): React.JSX.Element {
     <View style={styles.container}>
       <CameraView
         style={styles.camera}
-        zoom={1}
+        zoom={Platform.OS === 'ios' ? 0.2 : 0}
         ref={cameraRef}
         facing="back"
         ratio="4:3"
@@ -120,7 +122,7 @@ export default function CameraScreen(): React.JSX.Element {
             disabled={photoTaken}
           >
             <Text style={styles.captureText}>
-              {photoTaken ? "이미 촬영됨" : "촬영"}
+              {photoTaken ? "촬영됨" : "촬영"}
             </Text>
           </TouchableOpacity>
         )}
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'center',
     alignItems: 'center',
-    
+    zIndex: 1000,
   },
   loadingContainer: {
     alignItems: 'center',
