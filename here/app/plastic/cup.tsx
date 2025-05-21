@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,49 +8,68 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import Slider from '@react-native-community/slider';
 
 export default function CupGuide(): React.JSX.Element {
+  const [fontSize, setFontSize] = useState(14);
+  
   return (
     <View style={styles.container}>
       <View style={styles.tabContainer}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/cup')}>
-              <Text style={styles.tabText_selected}>커피컵</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/delivery')}>
-              <Text style={styles.tabText}>배달 용기</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/shampoo')}>
-              <Text style={styles.tabText}>샴푸통</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/instant')}>
-              <Text style={styles.tabText}>즉석밥 용기</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/straw')}>
-              <Text style={styles.tabText}>빨대</Text>
-            </TouchableOpacity>
-          </ScrollView>
-        </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/cup')}>
+            <Text style={[styles.tabText_selected, { fontSize }]}>커피컵</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/delivery')}>
+            <Text style={[styles.tabText, { fontSize }]}>배달 용기</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/shampoo')}>
+            <Text style={[styles.tabText, { fontSize }]}>샴푸통</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/instant')}>
+            <Text style={[styles.tabText, { fontSize }]}>즉석밥 용기</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/straw')}>
+            <Text style={[styles.tabText, { fontSize }]}>빨대</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
 
-    <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-      <Image source={require('../../assets/images/guideline/cup1.png')} style={styles.image} />
-      <Text style={styles.description}>
-        테이크아웃 커피컵은{"\n"}
-        컵과 빨대, 컵홀더를 분리해요.
-      </Text>
+      {/* 슬라이더 */}
+      <View style={{ marginTop: 10, alignItems: 'center' }}>
+        <Slider
+          style={{ width: 250 }}
+          minimumValue={12}
+          maximumValue={24}
+          step={1}
+          value={fontSize}
+          onValueChange={(value) => setFontSize(value)}
+          minimumTrackTintColor="#2e4010"
+          maximumTrackTintColor="#ccc"
+          thumbTintColor="#2e4010"
+        />
+        <Text style={{ fontSize: 13, marginBottom: 8 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+      </View>
 
-      <Image source={require('../../assets/images/guideline/cup2.png')} style={styles.image} />
-      <Text style={styles.description}>
-        컵을 깨끗히 세척하고{"\n"}
-        빨대는 일반쓰레기에 버려줘요.
-      </Text>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        <Image source={require('../../assets/images/guideline/cup1.png')} style={styles.image} />
+        <Text style={[styles.description, { fontSize }]}>
+          테이크아웃 커피컵은{"\n"}
+          컵과 빨대, 컵홀더를 분리해요.
+        </Text>
 
-      <Image source={require('../../assets/images/guideline/cup3.png')} style={styles.image} />
-      <Text style={styles.description_last}>
-        깨끗하게 씻은 컵은{"\n"}
-        플라스틱에 배출해요.
-      </Text>
-    </ScrollView>
+        <Image source={require('../../assets/images/guideline/cup2.png')} style={styles.image} />
+        <Text style={[styles.description, { fontSize }]}>
+          컵을 깨끗히 세척하고{"\n"}
+          빨대는 일반쓰레기에 버려줘요.
+        </Text>
+
+        <Image source={require('../../assets/images/guideline/cup3.png')} style={styles.image} />
+        <Text style={[styles.description, { fontSize }]}>
+          깨끗하게 씻은 컵은{"\n"}
+          플라스틱에 배출해요.
+        </Text>
+      </ScrollView>
     </View>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,40 +9,58 @@ import {
   ImageSourcePropType,
 } from 'react-native';
 import { router, useRouter } from 'expo-router';
+import Slider from '@react-native-community/slider';
 
 export default function BeverageGuide(): React.JSX.Element {
+  const [fontSize, setFontSize] = useState(14);
+
   return (
     <View style={styles.container}>
 
-        <View style={styles.tabContainer}>
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <TouchableOpacity style={styles.tab} onPress={() => router.push('/can/beverage' as const)}>
-              <Text style={styles.tabText_selected}>캔류</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.tab} onPress={() => router.push('/can/spray' as const)}>
-              <Text style={styles.tabText}>스프레이류</Text>
-            </TouchableOpacity>
-          </View>
+      <View style={styles.tabContainer}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/can/beverage' as const)}>
+            <Text style={[styles.tabText_selected, { fontSize }]}>캔류</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/can/spray' as const)}>
+            <Text style={[styles.tabText, { fontSize }]}>스프레이류</Text>
+          </TouchableOpacity>
         </View>
+      </View>
 
+      {/* ✅ 슬라이더 추가 */}
+      <View style={{ marginTop: 10, alignItems: 'center' }}>
+        <Slider
+          style={{ width: 200, height: 40 }}
+          minimumValue={12}
+          maximumValue={24}
+          step={1}
+          value={fontSize}
+          onValueChange={(value) => setFontSize(value)}
+          minimumTrackTintColor="#2e4010"
+          maximumTrackTintColor="#ccc"
+          thumbTintColor="#2e4010"
+        />
+        <Text style={{ fontSize: 13, marginBottom: 8 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+      </View>
 
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
         <Image source={require('../../assets/images/guideline/can1.png')} style={styles.image} />
-        <Text style={styles.description}>
+        <Text style={[styles.description, { fontSize }]}>
           캔은{"\n"}
           내부를 깨끗히 세척해줘요.
         </Text>
 
         <Image source={require('../../assets/images/guideline/can2.png')} style={styles.image} />
-        <Text style={styles.description}>
+        <Text style={[styles.description, { fontSize }]}>
           이후 세로로 찌그러트려서
         </Text>
 
         <Image source={require('../../assets/images/guideline/can3.png')} style={styles.image} />
-        <Text style={styles.description_last}>
+        <Text style={[styles.description, { fontSize }]}>
           캔에 배출해요{"\n"}
         </Text>
       </ScrollView>

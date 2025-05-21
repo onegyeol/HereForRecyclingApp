@@ -14,6 +14,8 @@ import { usePhotoStore } from '../app/stores/ImageStores';
 import Svg, { Rect } from 'react-native-svg';
 import FooterNavigation from '../components/FooterNavigation';
 import * as Speech from 'expo-speech'; // TTS 
+import Slider from '@react-native-community/slider'; // 슬라이더로 글자 사이즈 조정
+
 
 interface Detection {
     name: string;
@@ -25,7 +27,7 @@ interface Detection {
 
 interface ResultData {
     detections: Detection[];
-    explanations: string; 
+    explanations: string;
     image_url?: string; // 선택적 필드
     original_width?: number;   // 원본 이미지의 너비
     original_height?: number;  // 원본 이미지의 높이
@@ -36,11 +38,12 @@ export default function ResultScreen() {
     const [data, setData] = useState<ResultData | null>(null);
     const [loading, setLoading] = useState(true);
     const { photoUri } = usePhotoStore();
+    const [fontSize, setFontSize] = useState(14); // 초기 글자 크기 설정
 
     useEffect(() => {
         let isMounted = true;
         fetch('http://192.168.0.4:5000/result')
-            .then((res) => res.json())   
+            .then((res) => res.json())
             .then((json) => {
                 console.log("받은 데이터:", json);
                 setData(json);
@@ -61,11 +64,11 @@ export default function ResultScreen() {
                 setLoading(false);
             });
 
-            return () => {
-                isMounted = false;
-                Speech.stop();
-                console.log("TTS 정지");
-            };
+        return () => {
+            isMounted = false;
+            Speech.stop();
+            console.log("TTS 정지");
+        };
     }, []);
 
 
@@ -89,67 +92,86 @@ export default function ResultScreen() {
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scroll}>
-            {photoUri && (
-                <View style={styles.imageWrapper}>
-                    <ImageBackground
-                        source={{ uri: photoUri }}
-                        style={{ flex: 1 }}
-                        resizeMode="cover"
-                    >
-                    <Svg style={StyleSheet.absoluteFill}>
-                        {data?.detections?.map((box, index) => (
-                            <Rect
-                            key={index}
-                            x={box.xmin}
-                            y={box.ymin}
-                            width={box.xmax - box.xmin}
-                            height={box.ymax - box.ymin}
-                            stroke="red"
-                            strokeWidth="2"
-                            fill="transparent"
-                        />
-                    ))}
-                    </Svg>
-                    </ImageBackground>
-                </View>
-            )}
+                {photoUri && (
+                    <View style={styles.imageWrapper}>
+                        <ImageBackground
+                            source={{ uri: photoUri }}
+                            style={{ flex: 1 }}
+                            resizeMode="cover"
+                        >
+                            <Svg style={StyleSheet.absoluteFill}>
+                                {data?.detections?.map((box, index) => (
+                                    <Rect
+                                        key={index}
+                                        x={box.xmin}
+                                        y={box.ymin}
+                                        width={box.xmax - box.xmin}
+                                        height={box.ymax - box.ymin}
+                                        stroke="red"
+                                        strokeWidth="2"
+                                        fill="transparent"
+                                    />
+                                ))}
+                            </Svg>
+                        </ImageBackground>
+                    </View>
+                )}
 
                 <Text style={styles.resultTitle}>분석 결과</Text>
 
                 {data?.detections && data.detections.length > 0 && (
-                <View style={styles.block}>
-                    <Text style={styles.blockTitle}>탐지된 항목</Text>
-                    {data.detections.map((item, index) => (
-                    <Text key={index} style={styles.blockContent}>
-                        {index + 1}. {item.name}
-                    </Text>
-                    ))}
-                </View>
+                    <View style={styles.block}>
+                        <Text style={styles.blockTitle}>탐지된 항목</Text>
+                        {data.detections.map((item, index) => (
+                            <Text key={index} style={styles.blockContent}>
+                                {index + 1}. {item.name}
+                            </Text>
+                        ))}
+                    </View>
                 )}
 
                 {data?.explanations && (
                     <View style={styles.block}>
                         <Text style={styles.blockTitle}>분리배출 방법</Text>
-                        <Text style={styles.blockContent}>{data.explanations}</Text>
-                
+
+                        {/* ⬇️ fontSize 상태를 적용 */}
+                        <Text style={[styles.blockContent, { fontSize }]}>
+                            {data.explanations}
+                        </Text>
+
+                        {/* ⬇️ 글자 크기 조절 슬라이더 추가 */}
+                        <View style={{ marginTop: 16 }}>
+                            <Text style={{ marginBottom: 8, fontSize: 13 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+                            <Slider
+                                style={{ width: 200, height: 40 }}
+                                minimumValue={12}
+                                maximumValue={24}
+                                step={1}
+                                value={fontSize}
+                                onValueChange={(value) => setFontSize(value)}
+                                minimumTrackTintColor="#2e4010"
+                                maximumTrackTintColor="#ccc"
+                            />
+                        </View>
+
                         <TouchableOpacity
                             onPress={() => {
                                 Speech.stop();
                                 Speech.speak(data.explanations, {
-                                language: 'ko-KR',
-                                pitch: 1.0,
-                                rate: 1.0,
-                            });
-                        }}
-                        style={{
-                            marginTop:12,
-                            padding:10,
-                            backgroundColor: '#2e4010',
-                            borderRadius: 8,
-                            alignItems: 'center',
-                        }}
+                                    language: 'ko-KR',
+                                    pitch: 1.0,
+                                    rate: 1.0,
+                                });
+                            }}
+                            style={{
+                                marginTop: 12,
+                                padding: 10,
+                                backgroundColor: '#2e4010',
+                                borderRadius: 8,
+                                alignItems: 'center',
+                            }}
                         >
-                            <Text style={{color: 'white', fontWeight: 'bold' }}> 다시 듣기 </Text>
+                            <Text style={{ color: 'white', fontWeight: 'bold' }}>다시 듣기</Text>
                         </TouchableOpacity>
                     </View>
                 )}
@@ -230,5 +252,5 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginBottom: 24,
         position: 'relative',
-        },
+    },
 });
