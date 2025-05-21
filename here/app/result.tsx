@@ -42,7 +42,7 @@ export default function ResultScreen() {
 
     useEffect(() => {
         let isMounted = true;
-        fetch('http://192.168.0.4:5000/result')
+        fetch('https://5814-117-16-153-63.ngrok-free.app/result')
             .then((res) => res.json())
             .then((json) => {
                 console.log("받은 데이터:", json);
@@ -95,26 +95,30 @@ export default function ResultScreen() {
                 {photoUri && (
                     <View style={styles.imageWrapper}>
                         <ImageBackground
-                            source={{ uri: photoUri }}
-                            style={{ flex: 1 }}
-                            resizeMode="cover"
+                        source={{ uri: photoUri }}
+                        style={StyleSheet.absoluteFill}
+                        resizeMode="cover"
                         >
-                            <Svg style={StyleSheet.absoluteFill}>
-                                {data?.detections?.map((box, index) => (
-                                    <Rect
-                                        key={index}
-                                        x={box.xmin}
-                                        y={box.ymin}
-                                        width={box.xmax - box.xmin}
-                                        height={box.ymax - box.ymin}
-                                        stroke="red"
-                                        strokeWidth="2"
-                                        fill="transparent"
-                                    />
-                                ))}
-                            </Svg>
+                        <Svg
+                            width="100%"
+                            height="100%"
+                            viewBox={`0 0 ${data.original_width} ${data.original_height}`}
+                        >
+                            {data.detections.map((box, index) => (
+                            <Rect
+                                key={index}
+                                x={box.xmin}
+                                y={box.ymin}
+                                width={box.xmax - box.xmin}
+                                height={box.ymax - box.ymin}
+                                stroke="red"
+                                strokeWidth={2}
+                                fill="transparent"
+                            />
+                            ))}
+                        </Svg>
                         </ImageBackground>
-                    </View>
+                  </View>                  
                 )}
 
                 <Text style={styles.resultTitle}>분석 결과</Text>

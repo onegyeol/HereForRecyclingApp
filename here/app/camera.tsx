@@ -38,7 +38,7 @@ export default function CameraScreen(): React.JSX.Element {
     try {
       setIsLoading(true);
       
-      const response = await fetch("http://192.168.0.4:5000/analyze", {
+      const response = await fetch("https://5814-117-16-153-63.ngrok-free.app/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
@@ -142,18 +142,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",                 
-    bottom: 120,                           
+    bottom: 150,                           
     alignSelf: "center",
-    borderWidth: 3,
-    borderColor: "#2e4010",
-    zIndex: 1,
   },
   disabledButton: { backgroundColor: "#999" },
   captureText: {
     color: "#2e4010",
     fontFamily: "ChangwonDangamRound",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 20,
   },
   navButtons: {
     flexDirection: "row",
@@ -184,39 +181,37 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 30,
-    zIndex: 10,
   },
   guideImage: {
-    width: 250,
-    height: 180,
+    width: 290,
+    height: 220,
     resizeMode: "contain",
     marginBottom: 30,
   },
   closeButton: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingHorizontal: 25,
+    paddingVertical: 13,
     backgroundColor: "#2e4010",
     borderRadius: 6,
+    margin: 20
   },
   closeText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 18,
   },
   guideText: {
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "ChangwonDangamRound",
     color: "#fff",
     textAlign: "center",
     marginVertical: 10,
     lineHeight: 26,
-    paddingHorizontal: 10,
   },
   loadingOverlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000,
   },
   loadingContainer: {
     alignItems: 'center',
