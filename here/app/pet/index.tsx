@@ -42,7 +42,7 @@ const PlasticIndex: React.FC = () => {
             maximumTrackTintColor="#ccc"
             thumbTintColor="#2e4010"
           />
-          <Text style={{ fontSize: 13, marginBottom: 8 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+          <Text style={{ fontSize: 18, marginBottom: 8 }}>글자 크기: {fontSize.toFixed(0)}</Text>
         </View>
 
         <View style={styles.contentBox}>

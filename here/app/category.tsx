@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 16, 
+    margin: 20,
   },
   item: {
     backgroundColor: '#EEEEEE',
@@ -75,8 +76,8 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 110,
+    height: 110,
     resizeMode: 'contain',
   },
   footer: {
