@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,22 +8,42 @@ import {
   ScrollView,
 } from 'react-native';
 import { router, useRouter } from 'expo-router';
+import Slider from '@react-native-community/slider';
 
 export default function BoxGuide(): React.JSX.Element {
+  const [fontSize, setFontSize] = useState(14);
+
   return (
     <View style={styles.container}>
 
       {/* 탭 고정 */}
       <View style={styles.tabContainer}>
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/paper/box')}>
-            <Text style={styles.tabText_selected}>박스</Text>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/paper/box' as const)}>
+            <Text style={[styles.tabText_selected, { fontSize }]}>박스</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/paper/note')}>
-            <Text style={styles.tabText}>책 종류</Text>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/paper/note' as const)}>
+            <Text style={[styles.tabText, { fontSize }]}>책 종류</Text>
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* ✅ 슬라이더 추가 */}
+      <View style={{ marginTop: 10, alignItems: 'center' }}>
+        <Slider
+          style={{ width: 200, height: 40 }}
+          minimumValue={12}
+          maximumValue={24}
+          step={1}
+          value={fontSize}
+          onValueChange={(value) => setFontSize(value)}
+          minimumTrackTintColor="#2e4010"
+          maximumTrackTintColor="#ccc"
+          thumbTintColor="#2e4010"
+        />
+        <Text style={{ fontSize: 13, marginBottom: 8 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+      </View>
+
 
       {/* 스크롤 가능한 내용 */}
       <ScrollView
@@ -31,13 +51,13 @@ export default function BoxGuide(): React.JSX.Element {
         showsVerticalScrollIndicator={false}
       >
         <Image source={require('../../assets/images/guideline/box1.png')} style={styles.image} />
-        <Text style={styles.description}>
+        <Text style={[styles.description, { fontSize }]}>
           박스에 붙은 테이프, 송장 등을{"\n"}
           깔끔하게 떼줘요.
         </Text>
 
         <Image source={require('../../assets/images/guideline/box2.png')} style={styles.image} />
-        <Text style={styles.description_last}>
+        <Text style={[styles.description, { fontSize }]}>
           박스를 납작하게 만들어준 뒤, {"\n"}
           종이로 분리배출해요.
         </Text>
@@ -98,5 +118,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 30,
   },
-  
+
 });

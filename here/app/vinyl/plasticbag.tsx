@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,47 +7,88 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { router, useRouter } from 'expo-router';
+import { router } from 'expo-router';
+import Slider from '@react-native-community/slider';
 
 export default function PlasticbagGuide(): React.JSX.Element {
+  const [fontSize, setFontSize] = useState(16);
+
   return (
     <View style={styles.container}>
-          <View style={styles.tabContainer}>
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <TouchableOpacity style={styles.tab} onPress={() => router.push('/vinyl/plasticbag' as const)}>
-                <Text style={styles.tabText_selected}>비닐봉투</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.tab} onPress={() => router.push('/vinyl/snackVinyl' as const)}>
-                <Text style={styles.tabText}>과자봉지</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.tab} onPress={() => router.push('/vinyl/ramenVinyl' as const)}>
-                <Text style={styles.tabText}>라면봉지</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+      {/* 탭 메뉴 */}
+      <View style={styles.tabContainer}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <TouchableOpacity
+            style={styles.tab}
+            onPress={() => router.push('/vinyl/plasticbag' as const)}
+          >
+            <Text style={[styles.tabText_selected, { fontSize }]}>비닐봉투</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.tab}
+            onPress={() => router.push('/vinyl/snackVinyl' as const)}
+          >
+            <Text style={[styles.tabText, { fontSize }]}>과자봉지</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.tab}
+            onPress={() => router.push('/vinyl/ramenVinyl' as const)}
+          >
+            <Text style={[styles.tabText, { fontSize }]}>라면봉지</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
 
-      {/* 스크롤 가능한 내용 */}
+      {/* 슬라이더 */}
+      <View style={{ marginTop: 10, alignItems: 'center' }}>
+        <Slider
+          style={{ width: 250 }}
+          minimumValue={12}
+          maximumValue={24}
+          step={1}
+          value={fontSize}
+          onValueChange={(value) => setFontSize(value)}
+          minimumTrackTintColor="#2e4010"
+          maximumTrackTintColor="#ccc"
+          thumbTintColor="#2e4010"
+        />
+        <Text style={{ fontSize: 13, marginBottom: 8 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+      </View>
+
+      {/* 스크롤 가능한 본문 */}
       <ScrollView
         contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}>
-        <Image source={require('../../assets/images/guideline/vinyl1.png')} style={styles.image} />
-        <Text style={styles.description}>
+        showsVerticalScrollIndicator={false}
+      >
+        <Image
+          source={require('../../assets/images/guideline/vinyl1.png')}
+          style={styles.image}
+        />
+        <Text style={[styles.description, { fontSize }]}>
           비닐, 신문 포장 비닐 등{"\n"}
           투명/불투명 비닐 모두
         </Text>
 
-        <Image source={require('../../assets/images/guideline/vinyl2.png')} style={styles.image} />
-        <Text style={styles.description}>
+        <Image
+          source={require('../../assets/images/guideline/vinyl2.png')}
+          style={styles.image}
+        />
+        <Text style={[styles.description, { fontSize }]}>
           오염되어있는 부분을{"\n"}
           깨끗하게 씻어줘요.
         </Text>
 
-        <Image source={require('../../assets/images/guideline/vinyl3.png')} style={styles.image} />
-        <Text style={styles.description_last}>
+        <Image
+          source={require('../../assets/images/guideline/vinyl3.png')}
+          style={styles.image}
+        />
+        <Text style={[styles.description_last, { fontSize }]}>
           흩날리지 않도록 {"\n"}
           비닐들을 한꺼번에 모아서{"\n"}
           비닐에 배출해요. {"\n"}
         </Text>
+
+
       </ScrollView>
     </View>
   );

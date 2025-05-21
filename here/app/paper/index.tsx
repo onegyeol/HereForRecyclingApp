@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,9 +8,11 @@ import {
   Image,
 } from 'react-native';
 import { useRouter, Stack } from 'expo-router';
+import Slider from '@react-native-community/slider';
 
 const PlasticIndex: React.FC = () => {
   const router = useRouter();
+  const [fontSize, setFontSize] = useState(14);
 
   return (
     <>
@@ -18,17 +20,33 @@ const PlasticIndex: React.FC = () => {
         <View style={styles.tabContainer}>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <TouchableOpacity style={styles.tab} onPress={() => router.push('/paper/box' as const)}>
-              <Text style={styles.tabText}>박스</Text>
+              <Text style={[styles.tabText, { fontSize }]}>박스</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.tab} onPress={() => router.push('/paper/note' as const)}>
-              <Text style={styles.tabText}>책 종류</Text>
+              <Text style={[styles.tabText, { fontSize }]}>책 종류</Text>
             </TouchableOpacity>
           </View>
         </View>
 
+        {/* ✅ 슬라이더 추가 */}
+        <View style={{ marginTop: 10, alignItems: 'center' }}>
+          <Slider
+            style={{ width: 200, height: 40 }}
+            minimumValue={12}
+            maximumValue={24}
+            step={1}
+            value={fontSize}
+            onValueChange={(value) => setFontSize(value)}
+            minimumTrackTintColor="#2e4010"
+            maximumTrackTintColor="#ccc"
+            thumbTintColor="#2e4010"
+          />
+          <Text style={{ fontSize: 13, marginBottom: 8 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+        </View>
+
         <View style={styles.contentBox}>
-          <Text style={styles.mainText}>종이 분리배출 항목을 선택해주세요.</Text>
-          <Text style={styles.subText}>각 항목별로 정확한 분리배출 방법이 안내됩니다.</Text>
+          <Text style={[styles.mainText, { fontSize: fontSize + 4 }]}>종이 분리배출 항목을 선택해주세요.</Text>
+          <Text style={[styles.subText, { fontSize }]}>각 항목별로 정확한 분리배출 방법이 안내됩니다.</Text>
         </View>
       </View>
     </>
@@ -38,7 +56,7 @@ const PlasticIndex: React.FC = () => {
 export default PlasticIndex;
 
 const styles = StyleSheet.create({
-  container: { flex: 1,backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#fff' },
   title: {
     fontSize: 30,
     fontFamily: 'ChangwonDangamRoundBold',
