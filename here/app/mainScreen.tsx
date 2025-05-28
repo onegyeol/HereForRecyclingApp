@@ -1,24 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
 import { useRouter } from 'expo-router';
 import FooterNavigation from '../components/FooterNavigation';
-import { useCameraPermissions } from 'expo-camera';
-
 const Main: React.FC = () => {
   const router = useRouter();
-  const [permission, requestPermission] = useCameraPermissions();
 
   const titleImage: ImageSourcePropType = require('../assets/images/text1.png');
   const cameraIcon: ImageSourcePropType = require('../assets/images/camera.png');
   const treeIcon: ImageSourcePropType = require('../assets/images/tree.png');
   const mainImage: ImageSourcePropType = require('../assets/images/mainImage.png');
-
-  useEffect(() => {
-    if (!permission || permission.status !== 'granted') {
-      requestPermission(); 
-    }
-  }, [permission]);
-
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
