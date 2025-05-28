@@ -17,6 +17,11 @@
         "NSPhotoLibraryUsageDescription": "갤러리 접근을 위해 사진 라이브러리 접근 권한이 필요합니다."
       }
     },
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "android": {
       "package": "com.anonymous.here",
       "permissions": [
@@ -45,16 +50,8 @@
           "recordAudioAndroid": true
         }
       ],
-      "expo-font",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ]
+      "expo-font"
+      
     ],
     "experiments": {
       "typedRoutes": false

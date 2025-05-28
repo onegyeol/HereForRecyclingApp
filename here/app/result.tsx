@@ -39,10 +39,11 @@ export default function ResultScreen() {
     const [loading, setLoading] = useState(true);
     const { photoUri } = usePhotoStore();
     const [fontSize, setFontSize] = useState(14); // 초기 글자 크기 설정
+    const [imageSize, setImageSize] = useState<{ width: number, height: number } | null>(null);
 
     useEffect(() => {
         let isMounted = true;
-        fetch('https://5814-117-16-153-63.ngrok-free.app/result')
+        fetch('https://fb2d-117-16-153-63.ngrok-free.app/result')
             .then((res) => res.json())
             .then((json) => {
                 console.log("받은 데이터:", json);
@@ -93,33 +94,43 @@ export default function ResultScreen() {
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scroll}>
                 {photoUri && (
-                    <View style={styles.imageWrapper}>
+                    <View
+                        style={styles.imageWrapper}
+                        onLayout={(event) => {
+                            const { width, height } = event.nativeEvent.layout;
+                            setImageSize({ width, height });
+                        }}
+                    >
                         <ImageBackground
-                        source={{ uri: photoUri }}
-                        style={StyleSheet.absoluteFill}
-                        resizeMode="cover"
+                            source={{ uri: photoUri }}
+                            style={StyleSheet.absoluteFill}
+                            resizeMode="cover"
                         >
-                        <Svg
-                            width="100%"
-                            height="100%"
-                            viewBox={`0 0 ${data.original_width} ${data.original_height}`}
-                        >
-                            {data.detections.map((box, index) => (
-                            <Rect
-                                key={index}
-                                x={box.xmin}
-                                y={box.ymin}
-                                width={box.xmax - box.xmin}
-                                height={box.ymax - box.ymin}
-                                stroke="red"
-                                strokeWidth={2}
-                                fill="transparent"
-                            />
-                            ))}
-                        </Svg>
+                            {imageSize && data.original_width && data.original_height && (
+                                <Svg width="100%" height="100%">
+                                    {data.detections.map((box, index) => {
+                                        const xRatio = imageSize.width / data.original_width!;
+                                        const yRatio = imageSize.height / data.original_height!;
+
+                                        return (
+                                            <Rect
+                                                key={index}
+                                                x={box.xmin * xRatio}
+                                                y={box.ymin * yRatio}
+                                                width={(box.xmax - box.xmin) * xRatio}
+                                                height={(box.ymax - box.ymin) * yRatio}
+                                                stroke="red"
+                                                strokeWidth={2}
+                                                fill="transparent"
+                                            />
+                                        );
+                                    })}
+                                </Svg>
+                            )}
                         </ImageBackground>
-                  </View>                  
+                    </View>
                 )}
+
 
                 <Text style={styles.resultTitle}>분석 결과</Text>
 
@@ -138,11 +149,6 @@ export default function ResultScreen() {
                     <View style={styles.block}>
                         <Text style={styles.blockTitle}>분리배출 방법</Text>
 
-                        {/* ⬇️ fontSize 상태를 적용 */}
-                        <Text style={[styles.blockContent, { fontSize }]}>
-                            {data.explanations}
-                        </Text>
-
                         {/* ⬇️ 글자 크기 조절 슬라이더 추가 */}
                         <View style={{ marginTop: 16 }}>
                             <Text style={{ marginBottom: 8, fontSize: 13 }}>글자 크기: {fontSize.toFixed(0)}</Text>
@@ -157,6 +163,11 @@ export default function ResultScreen() {
                                 maximumTrackTintColor="#ccc"
                             />
                         </View>
+
+                        {/* ⬇️ fontSize 상태를 적용 */}
+                        <Text style={[styles.blockContent, { fontSize }]}>
+                            {data.explanations}
+                        </Text>
 
                         <TouchableOpacity
                             onPress={() => {
