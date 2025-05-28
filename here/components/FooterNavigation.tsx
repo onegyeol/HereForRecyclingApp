@@ -6,7 +6,6 @@ export default function FooterNavigation() {
   const router = useRouter();
   const pathname = usePathname();
 
-  console.log('현재 pathname:', pathname);
 
   return (
     <View style={styles.footer}>
