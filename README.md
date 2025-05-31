@@ -21,3 +21,6 @@
 - 데이터셋 : Kaggle, Roboflow Universe
 - Yolo v8 사용
 
+![image](https://github.com/user-attachments/assets/21377a62-a1b8-41f4-bbcb-ee11804884b3)
+
+![image](https://github.com/user-attachments/assets/fe13b4c5-cb82-4058-b0c8-606c6df48d92)
