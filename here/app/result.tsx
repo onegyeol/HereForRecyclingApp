@@ -37,13 +37,18 @@ export default function ResultScreen() {
     const router = useRouter();
     const [data, setData] = useState<ResultData | null>(null);
     const [loading, setLoading] = useState(true);
-    const { photoUri } = usePhotoStore();
+    const { photoUri, resultUUID } = usePhotoStore();
     const [fontSize, setFontSize] = useState(14); // 초기 글자 크기 설정
     const [imageSize, setImageSize] = useState<{ width: number, height: number } | null>(null);
 
     useEffect(() => {
+        if (!resultUUID) {
+            console.warn("UUID 없음. 결과 요청 생략.");
+            return;
+        }
+
         let isMounted = true;
-        fetch('https://fb2d-117-16-153-63.ngrok-free.app/result')
+        fetch(`https://7282-117-16-153-63.ngrok-free.app/result/${resultUUID}`)
             .then((res) => res.json())
             .then((json) => {
                 console.log("받은 데이터:", json);
@@ -72,14 +77,8 @@ export default function ResultScreen() {
         };
     }, []);
 
-
-    if (loading) {
-        return (
-            <View style={styles.centered}>
-                <ActivityIndicator size="large" color="#2e4010" />
-                <Text style={styles.loadingText}>분석 결과 불러오는 중...</Text>
-            </View>
-        );
+    if(loading){
+        return null;
     }
 
     if (!data) {
@@ -192,8 +191,14 @@ export default function ResultScreen() {
                 )}
 
             </ScrollView>
-
             <FooterNavigation />
+
+            {loading && (
+                <View style={styles.blockingOverlay} pointerEvents="auto">
+                    <ActivityIndicator size="large" color="#2e4010" />
+                    <Text style={styles.loadingText}>분석 결과 불러오는 중...</Text>
+                </View>
+            )}
         </View>
     );
 }
@@ -268,4 +273,15 @@ const styles = StyleSheet.create({
         marginBottom: 24,
         position: 'relative',
     },
+    blockingOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        zIndex: 999,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }    
 });
