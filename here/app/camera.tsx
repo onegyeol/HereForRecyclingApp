@@ -1,69 +1,59 @@
 import { BlurView } from "expo-blur";
+import 'react-native-get-random-values';
 import {
   CameraCapturedPicture,
   CameraView,
   useCameraPermissions,
 } from "expo-camera";
-import { useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Image,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Modal,
-  Linking
-} from "react-native";
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, BackHandler} from "react-native";
 import { usePhotoStore } from '../app/stores/ImageStores';
 import FooterNavigation from '../components/FooterNavigation';
+import { useFocusEffect } from '@react-navigation/native';
+import {v4 as uuidv4} from 'uuid';
+
 
 export default function CameraScreen(): React.JSX.Element {
   const [permission, requestPermission] = useCameraPermissions();
   const [photoTaken, setPhotoTaken] = useState(false);
   const [zoom, setZoom] = useState(0);
   const [showGuide, setShowGuide] = useState(true);
-  const [showPermissionModal, setShowPermissionModal] = useState(false);
   const cameraRef = useRef<CameraView | null>(null);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { setPhotoUri } = usePhotoStore();
+  const { setPhotoUri, setResultUUID } = usePhotoStore();
+  const navigation = useNavigation();
 
   useEffect(() => {
-    if (!permission) return;
-
-    if (permission.status === 'granted') {
-    setShowPermissionModal(false);
-  } else {
-    setShowPermissionModal(true);
-  }
-}, [permission?.status]);
-
-  const handleRequestPermission = async () => {
-  const result = await requestPermission();
-
-  if (result.granted) {
-    // 권한 허용됨
-    setShowPermissionModal(false);
-  } else {
-    // 권한 거절 -> 설정으로 이동
-    Linking.openSettings(); 
-  }
-};
+    if (permission?.status !== "granted") {
+      requestPermission();
+    }
+  }, [permission]);
 
   const sendPhotoToServer = async (photoUri: string): Promise<void> => {
+    console.log("📡 sendPhotoToServer 진입");
+    const uuid = uuidv4();
+    console.log("📎 UUID:", uuid);
+
     const formData = new FormData();
+    formData.append("uuid", uuid);
     formData.append("image", {
       uri: photoUri,
       name: "photo.jpg",
       type: "image/jpeg",
-    } as any);
+    }as any);
 
+    console.log("✅ FormData 준비 완료:", {
+      uuid,
+      photoUri,
+    });
+    
     try {
       setIsLoading(true);
-
-      const response = await fetch("https://fb2d-117-16-153-63.ngrok-free.app/analyze", {
+      console.log("📡 서버 전송 시작");
+      
+      const response = await fetch("https://7282-117-16-153-63.ngrok-free.app/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
@@ -75,10 +65,15 @@ export default function CameraScreen(): React.JSX.Element {
       console.log("분석 결과:", result);
 
       if (response.ok) {
+        setResultUUID(uuid); 
+        setIsLoading(false); 
         router.push("/result");
-      } else {
-        console.log("error");
       }
+      else {
+        console.log("error")
+      }
+
+
     } catch (error) {
       console.error("서버 전송 실패:", error);
       alert("서버와의 연결 중 오류가 발생했습니다.");
@@ -86,6 +81,7 @@ export default function CameraScreen(): React.JSX.Element {
   };
 
   const takePhoto = async (): Promise<void> => {
+    console.log("📸 takePhoto 실행됨"); // 추가
     if (cameraRef.current && !photoTaken) {
       const photo: CameraCapturedPicture = await cameraRef.current.takePictureAsync();
       console.log("사진 URI:", photo.uri);
@@ -95,31 +91,26 @@ export default function CameraScreen(): React.JSX.Element {
     }
   };
 
-  if (!permission || permission.status !== 'granted') {
-  return (
-    <View style={styles.container}>
-      <Modal
-        visible={showPermissionModal}
-        transparent
-        animationType="fade"
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.permissionText}>카메라 권한이 필요합니다.</Text>
-            <TouchableOpacity onPress={handleRequestPermission} style={styles.permissionButton}>
-              <Text style={styles.permissionButtonText}>권한 허용</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-
-      <View style={{ flex: 1 }} />
-
-      <FooterNavigation />
-    </View>
+  // 안드로이드 뒤로가기 차단
+  useFocusEffect(
+    React.useCallback(() => {
+      setPhotoTaken(false); 
+      setIsLoading(false);
+      
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+        if (isLoading) return true;
+        return false;
+      });
+  
+      return () => backHandler.remove();
+    }, [])
   );
-}
+  
 
+  // ios 뒤로가기 제스쳐 차단
+  useEffect(() => {
+    navigation.setOptions?.({ gestureEnabled: !isLoading });
+  }, [isLoading]);
 
   return (
     <View style={styles.container}>
@@ -163,50 +154,34 @@ export default function CameraScreen(): React.JSX.Element {
         </BlurView>
       )}
 
-      {!showGuide && (
-        <TouchableOpacity
-          onPress={takePhoto}
-          style={[styles.captureButton, photoTaken && styles.disabledButton]}
-          disabled={photoTaken}
-        >
-          <Text style={styles.captureText}>
-            {photoTaken ? "촬영됨" : "촬영"}
-          </Text>
-        </TouchableOpacity>
-      )}
-      <FooterNavigation />
+        {!showGuide && (
+          <TouchableOpacity
+            onPress={takePhoto}
+            style={[styles.captureButton, photoTaken && styles.disabledButton]}
+            disabled={isLoading}
+          >
+            <Text style={styles.captureText}>
+              {photoTaken && isLoading ? "촬영됨" : "촬영"}
+            </Text>
+          </TouchableOpacity>
+        )}
+      <FooterNavigation disabled={isLoading}/>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#000" },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    padding: 30,
-    borderRadius: 10,
-    alignItems: 'center',
-    elevation: 5,
-  },
-  permissionText: { fontSize: 18, marginBottom: 20, color: '#333', fontFamily: 'ChangwonDangamRound', textAlign: 'center' },
-  permissionButton: { padding: 12, backgroundColor: '#2e4010', borderRadius: 6 },
-  permissionButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold', fontFamily: 'ChangwonDangamRound' },
   camera: { flex: 1 },
   captureButton: {
-    backgroundColor: "#fff",
+    backgroundColor: "#fff",               
     width: 80,
     height: 50,
-    borderRadius: 10,
+    borderRadius: 10,                      
     justifyContent: "center",
     alignItems: "center",
-    position: "absolute",
-    bottom: 150,
+    position: "absolute",                 
+    bottom: 150,                           
     alignSelf: "center",
   },
   disabledButton: { backgroundColor: "#999" },
@@ -215,6 +190,30 @@ const styles = StyleSheet.create({
     fontFamily: "ChangwonDangamRound",
     fontWeight: "bold",
     fontSize: 20,
+  },
+  navButtons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 10,
+    paddingBottom: 24,
+    borderTopWidth: 1,
+    borderTopColor: "#ccc",
+    backgroundColor: "#fff",
+    width: "100%",
+  },
+  footerItem: {
+    alignItems: "center",
+  },
+  icon: {
+    width: 40,
+    height: 40,
+    marginBottom: 4,
+  },
+  footerText: {
+    fontFamily: "ChangwonDangamRound",
+    fontSize: 12,
+    fontWeight: "500",
+    color: "#000",
   },
   guideModal: {
     flex: 1,

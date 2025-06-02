@@ -19,9 +19,24 @@ const Main: React.FC = () => {
       <View style={styles.middleSection}>
         <Text style={styles.middleText}>이건 어떻게 버리지?</Text>
         <Text style={styles.subText}>AI한테 물어보세요 !</Text>
-        <TouchableOpacity style={styles.button} onPress={() => router.navigate('/camera')}>
-          <Text style={styles.buttonText}>사진 찍기</Text>
-        </TouchableOpacity>
+      </View>
+
+      <View style={styles.bottomSection}>
+        <View style={styles.buttonRow}>
+          <TouchableOpacity
+            style={[styles.button, { marginRight: 6 }]}
+            onPress={() => router.navigate('/camera')}
+          >
+            <Text style={styles.buttonText}>사진 찍기</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: '#6a8536', marginLeft: 6 }]}
+            onPress={() => router.navigate('/plusmode')}
+          >
+            <Text style={styles.buttonText}>설명해줘 모드</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <FooterNavigation />
@@ -36,38 +51,25 @@ const styles = StyleSheet.create({
   titleImage: { width: 330, height: 150, marginTop: 20 },
   mainImage: { width: 320, height: 320, marginTop: -30 },
   topSection: { marginTop: 70, alignItems: 'center', },
-  greenText: { fontSize: 24, color: '#2e4010', fontWeight: '700', marginVertical: 2 },
   middleSection: { alignItems: 'center', marginTop: -20 },
   middleText: { fontSize: 30, fontFamily: 'ChangwonDangamRoundBold', color: '#333', fontWeight: '900', marginBottom: 10 },
-  subText: { fontSize: 21, fontFamily: 'ChangwonDangamRound', color: '#333', fontWeight: '700', marginBottom: 23 },
+  subText: { fontSize: 21, fontFamily: 'ChangwonDangamRound', color: '#333', fontWeight: '700' },
+  bottomSection: { alignItems: 'center' },
   button: {
     backgroundColor: '#2e4010',
     paddingHorizontal: 24,
     paddingVertical: 16,
     borderRadius: 8,
   },
-  buttonText: { color: '#fff', fontFamily: 'ChangwonDangamRound', fontWeight: 'bold', fontSize: 18 },
-  footer: {
+  buttonRow: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 10,
-    paddingBottom: 24,
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    backgroundColor: '#fff',
+    justifyContent: 'center',
+    width: '100%',
+    paddingHorizontal: 24,
+    marginTop: 8,
   },
+  buttonText: { color: '#fff', fontFamily: 'ChangwonDangamRound', fontWeight: 'bold', fontSize: 18 },
   footerItem: {
     alignItems: 'center',
-  },
-  icon: {
-    width: 40,
-    height: 40,
-    marginBottom: 4,
-  },
-  footerText: {
-    fontFamily: 'ChangwonDangamRound',
-    fontSize: 12,
-    fontWeight: '500',
-    color: '#000',
-  },
+  }
 });

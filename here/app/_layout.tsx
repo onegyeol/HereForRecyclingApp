@@ -2,37 +2,49 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { useEffect, useCallback } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
+import { View } from 'react-native'; 
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
+SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
+
+  const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    "ChangwonDangamRound": require("../assets/fonts/ChangwonDangamRound.ttf"),
-    "ChangwonDangamRoundBold": require("../assets/fonts/ChangwonDangamAsac-Bold.ttf"),
+    ChangwonDangamRound: require('../assets/fonts/ChangwonDangamRound.ttf'),
+    ChangwonDangamRoundBold: require('../assets/fonts/ChangwonDangamAsac-Bold.ttf'),
   });
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await new Promise(resolve => setTimeout(resolve, 2000)); 
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
     return null;
   }
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="camera" options={{ headerShown: false }} />
-        <Stack.Screen name="category" options={{ headerShown: false }} />
-        <Stack.Screen name="plastic" options={{ headerShown: false }} />
-        <Stack.Screen name="pet" options={{ headerShown: false }} />
-        <Stack.Screen name="can" options={{ headerShown: false }} />
-        <Stack.Screen name="paper" options={{ headerShown: false }} />
-        <Stack.Screen name="vinyl" options={{ headerShown: false }} />
-        <Stack.Screen name="result" options={{ headerShown: false }} />
-        <Stack.Screen name="mainScreen" options={{ headerShown: false }} />
-      </Stack>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="camera" />
+          <Stack.Screen name="category" />
+          <Stack.Screen name="plastic" />
+          <Stack.Screen name="pet" />
+          <Stack.Screen name="can" />
+          <Stack.Screen name="paper" />
+          <Stack.Screen name="vinyl" />
+          <Stack.Screen name="result" />
+          <Stack.Screen name="mainScreen" />
+        </Stack>
+      </View>
       <StatusBar style="auto" />
     </ThemeProvider>
   );
