@@ -30,7 +30,7 @@
         "READ_MEDIA_IMAGES"
       ],
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/here-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
@@ -51,7 +51,6 @@
         }
       ],
       "expo-font"
-      
     ],
     "experiments": {
       "typedRoutes": false
