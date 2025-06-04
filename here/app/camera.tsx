@@ -32,9 +32,8 @@ export default function CameraScreen(): React.JSX.Element {
   }, [permission]);
 
   const sendPhotoToServer = async (photoUri: string): Promise<void> => {
-    console.log("📡 sendPhotoToServer 진입");
     const uuid = uuidv4();
-    console.log("📎 UUID:", uuid);
+    console.log("UUID:", uuid);
 
     const formData = new FormData();
     formData.append("uuid", uuid);
@@ -51,7 +50,6 @@ export default function CameraScreen(): React.JSX.Element {
     
     try {
       setIsLoading(true);
-      console.log("📡 서버 전송 시작");
       
       const response = await fetch("https://7282-117-16-153-63.ngrok-free.app/analyze", {
         method: "POST",
@@ -81,7 +79,6 @@ export default function CameraScreen(): React.JSX.Element {
   };
 
   const takePhoto = async (): Promise<void> => {
-    console.log("📸 takePhoto 실행됨"); // 추가
     if (cameraRef.current && !photoTaken) {
       const photo: CameraCapturedPicture = await cameraRef.current.takePictureAsync();
       console.log("사진 URI:", photo.uri);
