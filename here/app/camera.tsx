@@ -51,7 +51,7 @@ export default function CameraScreen(): React.JSX.Element {
     try {
       setIsLoading(true);
       
-      const response = await fetch("https://7282-117-16-153-63.ngrok-free.app/analyze", {
+      const response = await fetch("https://3bf6-117-16-153-63.ngrok-free.app/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
