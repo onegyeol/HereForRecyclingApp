@@ -29,7 +29,7 @@ export default function PlusModeScreen() {
     setResult('');
 
     try {
-      const res = await fetch('https://516d-117-16-153-63.ngrok-free.app/plusmode', {
+      const res = await fetch('https://7282-117-16-153-63.ngrok-free.app/plusmode', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ description }),
