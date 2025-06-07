@@ -7,9 +7,7 @@ import {
     ActivityIndicator,
     ScrollView,
     TouchableOpacity,
-    ImageBackground
 } from 'react-native';
-import { useRouter } from 'expo-router';
 import { usePhotoStore } from '../app/stores/ImageStores';
 import Svg, { Rect } from 'react-native-svg';
 import FooterNavigation from '../components/FooterNavigation';
@@ -34,12 +32,21 @@ interface ResultData {
 }
 
 export default function ResultScreen() {
-    const router = useRouter();
     const [data, setData] = useState<ResultData | null>(null);
     const [loading, setLoading] = useState(true);
     const { photoUri, resultUUID } = usePhotoStore();
-    const [fontSize, setFontSize] = useState(14); // 초기 글자 크기 설정
+    const [fontSize, setFontSize] = useState(14); 
     const [imageSize, setImageSize] = useState<{ width: number, height: number } | null>(null);
+    const [originalSize, setOriginalSize] = useState<{ width: number, height: number } | null>(null);
+    const [containerSize, setContainerSize] = useState<{ width: number; height: number } | null>(null);
+
+
+    useEffect(() => {
+        if (!photoUri) return;
+        Image.getSize(photoUri, (w, h) => {
+            setOriginalSize({ width: w, height: h });
+        });
+        }, [photoUri]);
 
     useEffect(() => {
         if (!resultUUID) return;
@@ -89,47 +96,86 @@ export default function ResultScreen() {
         );
     }
 
+    function getImageActualLayout(original: { width: number; height: number }, container: { width: number; height: number }) {
+        const imageRatio = original.width / original.height;
+        const containerRatio = container.width / container.height;
+
+        let actualWidth = container.width;
+        let actualHeight = container.height;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        if (imageRatio > containerRatio) {
+        // 여백은 위아래
+        actualHeight = container.width / imageRatio;
+        offsetY = (container.height - actualHeight) / 2;
+        } else {
+        // 여백은 좌우
+        actualWidth = container.height * imageRatio;
+        offsetX = (container.width - actualWidth) / 2;
+        }
+
+        return { actualWidth, actualHeight, offsetX, offsetY };
+    }
+
+    if (loading) {
+        return (
+        <View style={styles.centered}>
+            <ActivityIndicator size="large" />
+            <Text>로딩 중...</Text>
+        </View>
+        );
+    }
+
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scroll}>
-                {photoUri && (
-                    <View
-                        style={styles.imageWrapper}
-                        onLayout={(event) => {
-                            const { width, height } = event.nativeEvent.layout;
-                            setImageSize({ width, height });
-                        }}
-                    >
-                        <ImageBackground
+                <View
+                    style={styles.imageContainer}
+                    onLayout={(e) => {
+                    const { width, height } = e.nativeEvent.layout;
+                    setContainerSize({ width, height });
+                    }}
+                >
+                    {photoUri && (
+                        <Image
                             source={{ uri: photoUri }}
+                            style={styles.image}
+                            resizeMode="contain"
+                        />
+                        )}
+
+                    {originalSize && containerSize && (
+                    (() => {
+                        const { actualWidth, actualHeight, offsetX, offsetY } =
+                        getImageActualLayout(originalSize, containerSize);
+
+                        const xRatio = actualWidth / originalSize.width;
+                        const yRatio = actualHeight / originalSize.height;
+
+                        return (
+                        <Svg
+                            width={containerSize.width}
+                            height={containerSize.height}
                             style={StyleSheet.absoluteFill}
-                            resizeMode="cover"
                         >
-                            {imageSize && data.original_width && data.original_height && (
-                                <Svg width="100%" height="100%">
-                                    {data.detections.map((box, index) => {
-                                        const xRatio = imageSize.width / data.original_width!;
-                                        const yRatio = imageSize.height / data.original_height!;
-
-                                        return (
-                                            <Rect
-                                                key={index}
-                                                x={box.xmin * xRatio}
-                                                y={box.ymin * yRatio}
-                                                width={(box.xmax - box.xmin) * xRatio}
-                                                height={(box.ymax - box.ymin) * yRatio}
-                                                stroke="red"
-                                                strokeWidth={2}
-                                                fill="transparent"
-                                            />
-                                        );
-                                    })}
-                                </Svg>
-                            )}
-                        </ImageBackground>
-                    </View>
-                )}
-
+                            {data.detections.map((box, index) => (
+                            <Rect
+                                key={index}
+                                x={offsetX + box.xmin * xRatio}
+                                y={offsetY + box.ymin * yRatio}
+                                width={(box.xmax - box.xmin) * xRatio}
+                                height={(box.ymax - box.ymin) * yRatio}
+                                stroke="red"
+                                strokeWidth={2}
+                                fill="transparent"
+                            />
+                            ))}
+                        </Svg>
+                        );
+                    })()
+                    )}
+                </View>
 
                 <Text style={styles.resultTitle}>분석 결과</Text>
 
@@ -148,7 +194,6 @@ export default function ResultScreen() {
                     <View style={styles.block}>
                         <Text style={styles.blockTitle}>분리배출 방법</Text>
 
-                        {/* ⬇️ 글자 크기 조절 슬라이더 추가 */}
                         <View style={{ marginTop: 16 }}>
                             <Text style={{ marginBottom: 8, fontSize: 13 }}>글자 크기: {fontSize.toFixed(0)}</Text>
                             <Slider
@@ -163,7 +208,6 @@ export default function ResultScreen() {
                             />
                         </View>
 
-                        {/* ⬇️ fontSize 상태를 적용 */}
                         <Text style={[styles.blockContent, { fontSize }]}>
                             {data.explanations}
                         </Text>
@@ -203,13 +247,6 @@ const styles = StyleSheet.create({
     centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     loadingText: { marginTop: 12, fontSize: 16, color: '#555' },
     errorText: { fontSize: 16, color: 'red' },
-    image: {
-        width: 280,
-        height: 280,
-        resizeMode: 'contain',
-        borderRadius: 8,
-        marginBottom: 20,
-    },
     resultTitle: {
         fontSize: 30,
         fontFamily: 'ChangwonDangamRoundBold',
@@ -238,33 +275,14 @@ const styles = StyleSheet.create({
         lineHeight: 22,
         color: '#555',
     },
-    navButtons: {
-        flexDirection: "row",
-        justifyContent: "space-around",
-        paddingVertical: 10,
-        paddingBottom: 24,
-        borderTopWidth: 1,
-        borderTopColor: "#ccc",
-        backgroundColor: "#fff",
-        width: "100%",
-    },
-    footerItem: { alignItems: 'center' },
-    icon: {
-        width: 40,
-        height: 40,
-        marginBottom: 4,
-    },
-    footerText: {
-        fontFamily: 'ChangwonDangamRound',
-        fontSize: 12,
-        fontWeight: '500',
-        color: '#000',
-    },
-    imageWrapper: {
+    imageContainer: {
         width: '90%',
         aspectRatio: 3 / 4,
-        alignSelf: 'center',
-        marginBottom: 24,
         position: 'relative',
+        marginBottom: 20,
     },
+    image: {
+    width: '100%',
+    height: '100%',
+  },
 });

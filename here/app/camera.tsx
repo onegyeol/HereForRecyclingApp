@@ -42,11 +42,6 @@ export default function CameraScreen(): React.JSX.Element {
       name: "photo.jpg",
       type: "image/jpeg",
     }as any);
-
-    console.log("✅ FormData 준비 완료:", {
-      uuid,
-      photoUri,
-    });
     
     try {
       setIsLoading(true);
