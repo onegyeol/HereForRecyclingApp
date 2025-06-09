@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import { usePhotoStore } from '../app/stores/ImageStores';
-import Svg, { Rect } from 'react-native-svg';
+import Svg, { Rect, Text as SvgText } from 'react-native-svg';
 import FooterNavigation from '../components/FooterNavigation';
 import * as Speech from 'expo-speech'; // TTS 
 import Slider from '@react-native-community/slider'; // 슬라이더로 글자 사이즈 조정
@@ -40,6 +40,15 @@ export default function ResultScreen() {
     const [originalSize, setOriginalSize] = useState<{ width: number, height: number } | null>(null);
     const [containerSize, setContainerSize] = useState<{ width: number; height: number } | null>(null);
 
+    const labelKoMap: { [key: string]: string } = {
+        PLASTIC: '플라스틱',
+        WASTE: '일반쓰레기',
+        PET: '페트',
+        LDPE: '비닐류',
+        PAPER: '종이류',
+        CAN: '캔류',
+        };
+
 
     useEffect(() => {
         if (!photoUri) return;
@@ -51,7 +60,7 @@ export default function ResultScreen() {
     useEffect(() => {
         if (!resultUUID) return;
         let isMounted = true;
-        fetch(`https://516d-117-16-153-63.ngrok-free.app/result/${resultUUID}`)
+        fetch(`https://07da-117-16-153-63.ngrok-free.app/result/${resultUUID}`)
             .then((res) => res.json())
             .then((json) => {
                 console.log("받은 데이터:", json);
@@ -158,20 +167,46 @@ export default function ResultScreen() {
                             width={containerSize.width}
                             height={containerSize.height}
                             style={StyleSheet.absoluteFill}
-                        >
-                            {data.detections.map((box, index) => (
-                            <Rect
-                                key={index}
-                                x={offsetX + box.xmin * xRatio}
-                                y={offsetY + box.ymin * yRatio}
-                                width={(box.xmax - box.xmin) * xRatio}
-                                height={(box.ymax - box.ymin) * yRatio}
-                                stroke="red"
-                                strokeWidth={2}
-                                fill="transparent"
-                            />
-                            ))}
-                        </Svg>
+                            >
+                            {data.detections.map((box, index) => {
+                                const x = offsetX + box.xmin * xRatio;
+                                const y = offsetY + box.ymin * yRatio;
+                                const width = (box.xmax - box.xmin) * xRatio;
+                                const height = (box.ymax - box.ymin) * yRatio;
+
+                                return (
+                                <React.Fragment key={index}>
+                                    <Rect
+                                    x={x}
+                                    y={y}
+                                    width={width}
+                                    height={height}
+                                    stroke="green"
+                                    strokeWidth={2}
+                                    fill="transparent"
+                                    />
+                                    <Rect
+                                        x={x + 2}
+                                        y={y + 2}
+                                        width={labelKoMap[box.name].length * 12}
+                                        height={20}
+                                        fill="white"
+                                    />
+                                    <SvgText
+                                        x={x + 4}
+                                        y={y + 16}
+                                        fill="green"
+                                        fontSize="12"
+                                        fontWeight="bold"
+                                        >
+                                        {labelKoMap[box.name]}
+                                    </SvgText>
+
+                                </React.Fragment>
+                                );
+                            })}
+                            </Svg>
+
                         );
                     })()
                     )}
@@ -184,9 +219,9 @@ export default function ResultScreen() {
                         <Text style={styles.blockTitle}>탐지된 항목</Text>
                         {data.detections.map((item, index) => (
                             <Text key={index} style={styles.blockContent}>
-                                {index + 1}. {item.name}
+                                {index + 1}. {labelKoMap[item.name]}
                             </Text>
-                        ))}
+                            ))}
                     </View>
                 )}
 
