@@ -46,7 +46,7 @@ export default function CameraScreen(): React.JSX.Element {
     try {
       setIsLoading(true);
       
-      const response = await fetch("https://516d-117-16-153-63.ngrok-free.app/analyze", {
+      const response = await fetch("https://07da-117-16-153-63.ngrok-free.app/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
@@ -55,7 +55,6 @@ export default function CameraScreen(): React.JSX.Element {
       });
 
       const result = await response.json();
-      console.log("분석 결과:", result);
 
       if (response.ok) {
         setResultUUID(uuid); 
