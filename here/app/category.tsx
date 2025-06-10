@@ -19,19 +19,28 @@ export default function Category(): JSX.Element {
 
       <ScrollView contentContainerStyle={styles.gridContainer}>
         <TouchableOpacity onPress={() => router.push('/plastic')} style={styles.item}>
-          <Image source={require('../assets/images/plastic.png')} style={styles.image} />
+          <Image source={require('../assets/images/plastic.jpg')} style={styles.image} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push('/pet')} style={styles.item}>
-          <Image source={require('../assets/images/pet.png')} style={styles.image} />
+          <Image source={require('../assets/images/pet.jpg')} style={styles.image} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push('/paper')} style={styles.item}>
-          <Image source={require('../assets/images/paper.png')} style={styles.image} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push('/can')} style={styles.item}>
-          <Image source={require('../assets/images/can.png')} style={styles.image} />
+          <Image source={require('../assets/images/paper.jpg')} style={styles.image} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push('/vinyl')} style={styles.item}>
-          <Image source={require('../assets/images/plasticbag.png')} style={styles.image} />
+          <Image source={require('../assets/images/plasticbag.jpg')} style={styles.image} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/can')} style={styles.item}>
+          <Image source={require('../assets/images/can.jpg')} style={styles.image} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/glass')} style={styles.item}>
+          <Image source={require('../assets/images/glass.jpg')} style={styles.image} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/waste')} style={styles.item}>
+          <Image source={require('../assets/images/waste.jpg')} style={styles.image} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/etc')} style={styles.item}>
+          <Image source={require('../assets/images/etc.jpg')} style={styles.image} />
         </TouchableOpacity>
       </ScrollView>
 
