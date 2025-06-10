@@ -11,14 +11,14 @@ import * as Speech from 'expo-speech';
 import { router, useRouter } from 'expo-router';
 import Slider from '@react-native-community/slider';
 
-export default function DeliveryContainerGuide(): React.JSX.Element {
-  const [fontSize, setFontSize] = useState(16);
+export default function MirrorGuide(): React.JSX.Element {
+  const [fontSize, setFontSize] = useState(14);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const shouldStopRef = useRef(false);
   const descriptions = [
-    '배달용기 겉에 붙은 스티커를 떼줘요.',
-    '음식물이 뭍은 배달용기는 깨끗하게 세척해줘요.',
-    '깨끗하게 씻은 용기는 플라스틱으로 배출해요',
+    '거울은 재활용이 어렵기에',
+    '일반쓰레기에 버려줘요.',
+    '이때 거울이 크다면 대형 폐기물 스티커를 붙여 배출해야 해요',
   ];
 
   // 페이지 이동 등으로 언마운트될 때 TTS 중지
@@ -66,26 +66,44 @@ export default function DeliveryContainerGuide(): React.JSX.Element {
       readDescriptionsSequentially(0); // 0번 인덱스부터 시작
     }
   };
-  
+
+
   return (
     <View style={styles.container}>
-
       <View style={styles.tabContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/cup')}>
-            <Text style={[styles.tabText, { fontSize }]}>커피컵</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/delivery')}>
-            <Text style={[styles.tabText_selected, { fontSize }]}>배달 용기</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/shampoo')}>
-            <Text style={[styles.tabText, { fontSize }]}>샴푸통</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/instant')}>
-            <Text style={[styles.tabText, { fontSize }]}>즉석밥 용기</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </View>
+            <TouchableOpacity style={styles.tab} onPress={() => router.push('/waste/straw' as const)}>
+              <Text style={[styles.tabText, { fontSize }]}>빨대</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.tab} onPress={() => router.push('/waste/born' as const)}>
+              <Text style={[styles.tabText, { fontSize }]}>뼈</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.tab} onPress={() => router.push('/waste/cd' as const)}>
+              <Text style={[styles.tabText, { fontSize }]}>CD</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.tab} onPress={() => router.push('/waste/egg' as const)}>
+              <Text style={[styles.tabText, { fontSize }]}>계란 껍질</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.tab} onPress={() => router.push('/waste/icePack' as const)}>
+              <Text style={[styles.tabText, { fontSize }]}>아이스팩</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.tab} onPress={() => router.push('/waste/lighter' as const)}>
+              <Text style={[styles.tabText, { fontSize }]}>라이터</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.tab} onPress={() => router.push('/waste/mirror' as const)}>
+              <Text style={[styles.tabText_selected, { fontSize }]}>거울</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.tab} onPress={() => router.push('/waste/receipt' as const)}>
+              <Text style={[styles.tabText, { fontSize }]}>영수증</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.tab} onPress={() => router.push('/waste/seed' as const)}>
+              <Text style={[styles.tabText, { fontSize }]}>단단한 껍질류</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.tab} onPress={() => router.push('/waste/tube' as const)}>
+              <Text style={[styles.tabText, { fontSize }]}>튜브형 용기</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
 
       {/* 슬라이더 */}
       <View style={{ marginTop: 10, alignItems: 'center' }}>
@@ -111,25 +129,19 @@ export default function DeliveryContainerGuide(): React.JSX.Element {
 
       {/* 스크롤 가능한 내용 */}
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <Image source={require('../../assets/images/guideline/container1.png')} style={styles.image} />
+        <Image source={require('../../assets/images/guideline/mirror1.jpg')} style={styles.image} />
         <Text style={[styles.description, { fontSize }]}>
-          배달용기 겉에 붙은 {'\n'}
-          스티커를 떼줘요.
+          거울은 재활용이{"\n"}
+          어렵기 때문에
         </Text>
 
-        <Image source={require('../../assets/images/guideline/container2.png')} style={styles.image} />
-        <Text style={[styles.description, { fontSize }]}>
-          음식물이 뭍은 배달용기는 {'\n'}
-          깨끗하게 세척해요.{"\n"}
-        </Text>
-
-        <Image source={require('../../assets/images/guideline/container3.png')} style={styles.image} />
+        <Image source={require('../../assets/images/guideline/mirror2.jpg')} style={styles.image} />
         <Text style={[styles.description_last, { fontSize }]}>
-          깨끗하게 씻은 용기는{"\n"}
-          플라스틱에 배출해요.
+          일반쓰레기에 버려줘요.{"\n"}
+          이때, 거울이 크다면 {"\n"}
+          대형 폐기물 스티커를 붙여 배출해야 해요.
         </Text>
       </ScrollView>
-
     </View>
   );
 }
@@ -159,6 +171,15 @@ const styles = StyleSheet.create({
     fontFamily: 'ChangwonDangamRound',
     fontWeight: '600',
   },
+  tabText: {
+    fontSize: 14,
+    fontFamily: 'ChangwonDangamRound',
+    fontWeight: '600',
+    color: '#9E9E9E',
+  },
+  scrollContent: {
+    alignItems: 'center',
+  },
   listenButton: {
     backgroundColor: '#2e4010',
     paddingVertical: 10,
@@ -174,15 +195,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'ChangwonDangamRound',
     fontWeight: '600',
-  },
-  tabText: {
-    fontSize: 14,
-    fontFamily: 'ChangwonDangamRound',
-    fontWeight: '600',
-    color: '#9E9E9E',
-  },
-  scrollContent: {
-    alignItems: 'center',
   },
   image: {
     width: 280,

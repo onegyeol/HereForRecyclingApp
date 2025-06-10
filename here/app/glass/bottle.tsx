@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,13 +11,15 @@ import * as Speech from 'expo-speech';
 import { router, useRouter } from 'expo-router';
 import Slider from '@react-native-community/slider';
 
-export default function StrawGuide(): React.JSX.Element {
-  const [fontSize, setFontSize] = useState(16);
+export default function BottleGuide(): React.JSX.Element {
+  const [fontSize, setFontSize] = useState(14);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const shouldStopRef = useRef(false);
   const descriptions = [
-    '각 음료 컵에서 빨대를 분리해줘요.',
-    '빨대는 일반쓰레기에 버려줘요.',
+    '술병, 음료병 등 유리병은',
+    '병뚜껑을 분리해 병뚜껑은 고철로 배출한 후',
+    '병 안의 내용물을 께끗히 비워준 뒤',
+    '유리로 분리배출해요.',
   ];
 
   // 페이지 이동 등으로 언마운트될 때 TTS 중지
@@ -65,34 +67,26 @@ export default function StrawGuide(): React.JSX.Element {
       readDescriptionsSequentially(0); // 0번 인덱스부터 시작
     }
   };
-
-
+  
   return (
     <View style={styles.container}>
-      <View style={styles.tabContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/cup')}>
-            <Text style={[styles.tabText, { fontSize }]}>커피컵</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/delivery')}>
-            <Text style={[styles.tabText, { fontSize }]}>배달 용기</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/shampoo')}>
-            <Text style={[styles.tabText, { fontSize }]}>샴푸통</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/instant')}>
-            <Text style={[styles.tabText, { fontSize }]}>즉석밥 용기</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/straw')}>
-            <Text style={[styles.tabText_selected, { fontSize }]}>빨대</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </View>
 
-      {/* 슬라이더 */}
+      {/* 탭 고정 */}
+      <View style={styles.tabContainer}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <TouchableOpacity style={styles.tab} onPress={() => router.push('/glass/bottle' as const)}>
+              <Text style={[styles.tabText_selected, { fontSize }]}>음료/주류병</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.tab} onPress={() => router.push('/glass/jam' as const)}>
+              <Text style={[styles.tabText, { fontSize }]}>잼같은 유리병</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+      {/* ✅ 슬라이더 추가 */}
       <View style={{ marginTop: 10, alignItems: 'center' }}>
         <Slider
-          style={{ width: 250 }}
+          style={{ width: 200, height: 40 }}
           minimumValue={12}
           maximumValue={24}
           step={1}
@@ -112,16 +106,30 @@ export default function StrawGuide(): React.JSX.Element {
       </TouchableOpacity>
 
       {/* 스크롤 가능한 내용 */}
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <Image source={require('../../assets/images/guideline/straw1.png')} style={styles.image} />
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <Image source={require('../../assets/images/guideline/bottle1.jpg')} style={styles.image} />
         <Text style={[styles.description, { fontSize }]}>
-          각 음료 컵에서{"\n"}
-          빨대를 분리해줘요.
+          술병, 음료병 등 유리병은
         </Text>
 
-        <Image source={require('../../assets/images/guideline/straw2.png')} style={styles.image} />
+        <Image source={require('../../assets/images/guideline/bottle2.jpg')} style={styles.image} />
         <Text style={[styles.description_last, { fontSize }]}>
-          빨대는 일반쓰레기에 버려줘요.
+          병뚜껑을 분리해 {"\n"}
+          병뚜껑은 고철로 배출하고
+        </Text>
+
+        <Image source={require('../../assets/images/guideline/bottle3.jpg')} style={styles.image} />
+        <Text style={[styles.description, { fontSize }]}>
+          병 안의 내용물을{"\n"}
+          깨끗히 비워준 뒤에
+        </Text>
+
+        <Image source={require('../../assets/images/guideline/bottle4.jpg')} style={styles.image} />
+        <Text style={[styles.description_last, { fontSize }]}>
+          유리로 분리배출해요. {"\n"}
         </Text>
       </ScrollView>
     </View>
@@ -137,7 +145,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   tabContainer: {
-    flexDirection: 'row',
+    justifyContent: 'center',
     paddingHorizontal: 10,
     marginBottom: 20,
   },
@@ -159,9 +167,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#9E9E9E',
   },
-  scrollContent: {
-    alignItems: 'center',
-  },
   listenButton: {
     backgroundColor: '#2e4010',
     paddingVertical: 10,
@@ -177,6 +182,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'ChangwonDangamRound',
     fontWeight: '600',
+  },
+  scrollContent: {
+    alignItems: 'center',
   },
   image: {
     width: 280,
@@ -196,4 +204,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 30,
   },
+
 });

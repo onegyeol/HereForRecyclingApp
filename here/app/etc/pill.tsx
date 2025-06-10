@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,14 +11,14 @@ import * as Speech from 'expo-speech';
 import { router, useRouter } from 'expo-router';
 import Slider from '@react-native-community/slider';
 
-export default function DeliveryContainerGuide(): React.JSX.Element {
-  const [fontSize, setFontSize] = useState(16);
+export default function PillGuide(): React.JSX.Element {
+  const [fontSize, setFontSize] = useState(14);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const shouldStopRef = useRef(false);
   const descriptions = [
-    '배달용기 겉에 붙은 스티커를 떼줘요.',
-    '음식물이 뭍은 배달용기는 깨끗하게 세척해줘요.',
-    '깨끗하게 씻은 용기는 플라스틱으로 배출해요',
+    '남은 약이나 유통기한이 지난 약은',
+    '폐의약품 수거함에 버려주세요.',
+    '폐의약품 수거함은 약국, 주민 센터 등에서 볼 수 있어요',
   ];
 
   // 페이지 이동 등으로 언마운트될 때 TTS 중지
@@ -35,12 +35,12 @@ export default function DeliveryContainerGuide(): React.JSX.Element {
       setIsSpeaking(false);
       return;
     }
-  
+
     if (index >= descriptions.length) {
       setIsSpeaking(false);
       return;
     }
-  
+
     Speech.speak(descriptions[index], {
       language: 'ko',
       pitch: 1.0,
@@ -66,31 +66,29 @@ export default function DeliveryContainerGuide(): React.JSX.Element {
       readDescriptionsSequentially(0); // 0번 인덱스부터 시작
     }
   };
-  
+
   return (
     <View style={styles.container}>
 
+      {/* 탭 고정 */}
       <View style={styles.tabContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/cup')}>
-            <Text style={[styles.tabText, { fontSize }]}>커피컵</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/etc/pill' as const)}>
+            <Text style={[styles.tabText_selected, { fontSize }]}>의약품</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/delivery')}>
-            <Text style={[styles.tabText_selected, { fontSize }]}>배달 용기</Text>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/etc/battery' as const)}>
+            <Text style={[styles.tabText, { fontSize }]}>배터리</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/shampoo')}>
-            <Text style={[styles.tabText, { fontSize }]}>샴푸통</Text>
+          <TouchableOpacity style={styles.tab} onPress={() => router.push('/etc/bulb' as const)}>
+            <Text style={[styles.tabText, { fontSize }]}>전구</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/instant')}>
-            <Text style={[styles.tabText, { fontSize }]}>즉석밥 용기</Text>
-          </TouchableOpacity>
-        </ScrollView>
+        </View>
       </View>
 
-      {/* 슬라이더 */}
+      {/* ✅ 슬라이더 추가 */}
       <View style={{ marginTop: 10, alignItems: 'center' }}>
         <Slider
-          style={{ width: 250 }}
+          style={{ width: 200, height: 40 }}
           minimumValue={12}
           maximumValue={24}
           step={1}
@@ -110,26 +108,29 @@ export default function DeliveryContainerGuide(): React.JSX.Element {
       </TouchableOpacity>
 
       {/* 스크롤 가능한 내용 */}
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <Image source={require('../../assets/images/guideline/container1.png')} style={styles.image} />
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <Image source={require('../../assets/images/guideline/pill1.jpg')} style={styles.image} />
         <Text style={[styles.description, { fontSize }]}>
-          배달용기 겉에 붙은 {'\n'}
-          스티커를 떼줘요.
+          남은 약이나 {"\n"}
+          유통 기한이 지난 약은
         </Text>
 
-        <Image source={require('../../assets/images/guideline/container2.png')} style={styles.image} />
-        <Text style={[styles.description, { fontSize }]}>
-          음식물이 뭍은 배달용기는 {'\n'}
-          깨끗하게 세척해요.{"\n"}
-        </Text>
-
-        <Image source={require('../../assets/images/guideline/container3.png')} style={styles.image} />
+        <Image source={require('../../assets/images/guideline/pill2.jpg')} style={styles.image} />
         <Text style={[styles.description_last, { fontSize }]}>
-          깨끗하게 씻은 용기는{"\n"}
-          플라스틱에 배출해요.
+          폐의약품 수거함에 {"\n"}
+          버려주세요.
+        </Text>
+
+        <Image source={require('../../assets/images/guideline/pill3.jpg')} style={styles.image} />
+        <Text style={[styles.description_last, { fontSize }]}>
+          폐의약품 수거함은 {"\n"}
+          약국, 주민 센터 등에서{"\n"}
+          볼 수 있어요.
         </Text>
       </ScrollView>
-
     </View>
   );
 }
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   tabContainer: {
-    flexDirection: 'row',
+    justifyContent: 'center',
     paddingHorizontal: 10,
     marginBottom: 20,
   },
@@ -158,6 +159,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'ChangwonDangamRound',
     fontWeight: '600',
+  },
+  tabText: {
+    fontSize: 14,
+    fontFamily: 'ChangwonDangamRound',
+    fontWeight: '600',
+    color: '#9E9E9E',
   },
   listenButton: {
     backgroundColor: '#2e4010',
@@ -174,12 +181,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'ChangwonDangamRound',
     fontWeight: '600',
-  },
-  tabText: {
-    fontSize: 14,
-    fontFamily: 'ChangwonDangamRound',
-    fontWeight: '600',
-    color: '#9E9E9E',
   },
   scrollContent: {
     alignItems: 'center',
@@ -202,4 +203,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 30,
   },
+
 });

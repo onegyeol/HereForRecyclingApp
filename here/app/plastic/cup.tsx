@@ -83,9 +83,6 @@ export default function CupGuide(): React.JSX.Element {
           <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/instant')}>
             <Text style={[styles.tabText, { fontSize }]}>즉석밥 용기</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => router.push('/plastic/straw')}>
-            <Text style={[styles.tabText, { fontSize }]}>빨대</Text>
-          </TouchableOpacity>
         </ScrollView>
       </View>
 
