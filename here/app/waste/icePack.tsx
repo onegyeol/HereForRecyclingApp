@@ -16,10 +16,9 @@ export default function IcePackGuide(): React.JSX.Element {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const shouldStopRef = useRef(false);
   const descriptions = [
-    '아이스팩은 내용물을 비우지 않았다면',
-    '일반쓰레기에 버려줘요.',
-    '아이스팩의 내용물을 비웠다면',
-    '비닐로 배출해요',
+    '아이스팩은',
+    '내용물을 비우고',
+    '일반 쓰레기로 배출해요',
   ];
 
   // 페이지 이동 등으로 언마운트될 때 TTS 중지
@@ -132,24 +131,17 @@ export default function IcePackGuide(): React.JSX.Element {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <Image source={require('../../assets/images/guideline/icepack1.jpg')} style={styles.image} />
         <Text style={[styles.description, { fontSize }]}>
-          아이스팩은{"\n"}
-          내용물을 비우지 않았다면
-        </Text>
-
-        <Image source={require('../../assets/images/guideline/icepack2.jpg')} style={styles.image} />
-        <Text style={[styles.description_last, { fontSize }]}>
-          일반쓰레기에 버려줘요.
-        </Text>
+          아이스팩은
+        </Text>=
 
         <Image source={require('../../assets/images/guideline/icepack3.jpg')} style={styles.image} />
         <Text style={[styles.description_last, { fontSize }]}>
-          아이스팩의 내용물을{"\n"}
-          비웠다면
+          내용물을 비우고
         </Text>
 
         <Image source={require('../../assets/images/guideline/icepack4.jpg')} style={styles.image} />
         <Text style={[styles.description_last, { fontSize }]}>
-          비닐로 배출해요.
+          일반 쓰레기로 배출해요.
         </Text>
       </ScrollView>
     </View>
