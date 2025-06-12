@@ -60,7 +60,7 @@ export default function ResultScreen() {
     useEffect(() => {
         if (!resultUUID) return;
         let isMounted = true;
-        fetch(`https://62af-117-16-153-63.ngrok-free.app/result/${resultUUID}`)
+        fetch(`https://749b-117-16-153-63.ngrok-free.app/result/${resultUUID}`)
             .then((res) => res.json())
             .then((json) => {
                 console.log("받은 데이터:", json);
