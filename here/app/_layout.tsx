@@ -43,6 +43,7 @@ export default function RootLayout() {
           <Stack.Screen name="vinyl" />
           <Stack.Screen name="result" />
           <Stack.Screen name="mainScreen" />
+          <Stack.Screen name="infoScreen"/>
         </Stack>
       </View>
       <StatusBar style="auto" />
