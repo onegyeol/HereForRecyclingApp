@@ -47,6 +47,19 @@ const Main: React.FC = () => {
 export default Main;
 
 const styles = StyleSheet.create({
+  infoButton: {
+    marginTop: 14,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    backgroundColor: '#d4d4d4',
+  },
+  infoButtonText: {
+    fontSize: 16,
+    color: '#333',
+    fontWeight: '600',
+    fontFamily: 'ChangwonDangamRound',
+  },
   container: { flex: 1, backgroundColor: '#fff', justifyContent: 'space-between'},
   titleImage: { width: 330, height: 150, marginTop: 20 },
   mainImage: { width: 320, height: 320, marginTop: -30 },

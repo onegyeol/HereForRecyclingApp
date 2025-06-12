@@ -14,7 +14,7 @@ export default function FooterNavigation({ disabled = false }: FooterNavigationP
     <View style={styles.footer}>
       {/* 왼쪽 분리배출 정보 버튼 */}
       <TouchableOpacity
-        style={styles.footerItem}
+        style={[styles.footerItem, { marginLeft: -10 }]}
         disabled={disabled}
         onPress={() => {
           if (!disabled && pathname !== '/category') {
@@ -22,14 +22,14 @@ export default function FooterNavigation({ disabled = false }: FooterNavigationP
           }
         }}
       >
-        <Image source={require('../assets/images/tree.png')} style={styles.icon} />
+        <Image source={require('../assets/images/recy.png')} style={styles.icon} />
         <Text
           style={[
             styles.footerText,
             pathname === '/category' ? styles.activeText : styles.inactiveText,
           ]}
         >
-          분리배출 정보
+          분리배출 방법
         </Text>
       </TouchableOpacity>
       
@@ -53,7 +53,7 @@ export default function FooterNavigation({ disabled = false }: FooterNavigationP
         disabled={disabled}
         onPress={() => {
           if (!disabled && pathname !== '/info') {
-            router.replace('/info');
+            router.replace('/infoScreen');
           }
         }}
       >
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
   },
   footerItem: {
     alignItems: 'center',
+    flex: 1,
   },
   icon: {
     width: 50,
@@ -103,11 +104,9 @@ const styles = StyleSheet.create({
   },
   cameraButton: {
     position: 'absolute',
-    bottom: 50, // footer border-top에 걸치도록
-    left: '50%',
-    transform: [{ translateX: -30 }],
-    width: 70,
-    height: 70,
+    bottom: 60,  
+    width: 65,
+    height: 65,
     borderRadius: 50,
     backgroundColor: '#4e6626',
     alignItems: 'center',
