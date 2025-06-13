@@ -111,7 +111,7 @@ export default function JamGuide(): React.JSX.Element {
       >
         <Image source={require('../../assets/images/guideline/jam1.jpg')} style={styles.image} />
         <Text style={[styles.description, { fontSize }]}>
-          잼 등이 들어있는 유리병은
+          잼 등이 들어있던 유리병은
         </Text>
 
         <Image source={require('../../assets/images/guideline/jam2.jpg')} style={styles.image} />
