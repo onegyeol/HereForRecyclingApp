@@ -12,7 +12,7 @@ import * as Speech from 'expo-speech';
 import Slider from '@react-native-community/slider';
 
 export default function CupGuide(): React.JSX.Element {
-  const [fontSize, setFontSize] = useState(16);
+  const [fontSize, setFontSize] = useState(14);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const shouldStopRef = useRef(false);
   const descriptions = [

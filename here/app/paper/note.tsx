@@ -12,7 +12,7 @@ import { router, useRouter } from 'expo-router';
 import Slider from '@react-native-community/slider';
 
 export default function NoteGuide(): React.JSX.Element {
-  const [fontSize, setFontSize] = useState(16);
+  const [fontSize, setFontSize] = useState(14);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const shouldStopRef = useRef(false);
   const descriptions = [
