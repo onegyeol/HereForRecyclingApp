@@ -47,6 +47,7 @@ export default function ResultScreen() {
         LDPE: '비닐류',
         PAPER: '종이류',
         CAN: '캔류',
+        GLASS: '유리',
         };
 
 
@@ -60,7 +61,7 @@ export default function ResultScreen() {
     useEffect(() => {
         if (!resultUUID) return;
         let isMounted = true;
-        fetch(`https://749b-117-16-153-63.ngrok-free.app/result/${resultUUID}`)
+        fetch(`http://13.125.125.218:5000/result/${resultUUID}`)
             .then((res) => res.json())
             .then((json) => {
                 console.log("받은 데이터:", json);
