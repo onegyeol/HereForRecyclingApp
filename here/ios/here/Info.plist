@@ -28,7 +28,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>here</string>
-          <string>com.anonymous.here</string>
+          <string>com.teamhere.here</string>
         </array>
       </dict>
     </array>

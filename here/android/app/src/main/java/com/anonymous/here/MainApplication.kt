@@ -1,4 +1,4 @@
-package com.anonymous.here
+package com.teamhere.here
 
 import android.app.Application
 import android.content.res.Configuration
