@@ -1,20 +1,23 @@
 {
   "expo": {
-    "name": "here",
+    "name": "이건여기",
     "slug": "here",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/here-icon.png",
     "scheme": "here",
     "userInterfaceStyle": "automatic",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.teamhere.here",
+      "buildNumber": "10",
       "infoPlist": {
-        "NSCameraUsageDescription": "앱에서 사진을 찍기 위해 카메라 접근이 필요합니다.",
-        "NSPhotoLibraryUsageDescription": "갤러리 접근을 위해 사진 라이브러리 접근 권한이 필요합니다."
+        "NSCameraUsageDescription": "이 앱은 AI의 분리배출 방법 안내 제공을 위해 쓰레기 사진 촬영 시 카메라 권한이 필요합니다.",
+        "CFBundleDisplayName": "이건여기"
       }
     },
     "splash": {
@@ -27,7 +30,9 @@
       "permissions": [
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
-        "READ_MEDIA_IMAGES"
+        "READ_MEDIA_IMAGES",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/here-icon.png",
@@ -45,8 +50,7 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "이 앱이 카메라를 사용할 수 있도록 허용해주세요.",
-          "microphonePermission": "이 앱이 마이크를 사용할 수 있도록 허용해주세요.",
+          "cameraPermission": "이 앱은 AI의 분리배출 방법 안내 제공을 위해 쓰레기 사진 촬영 시 카메라 권한이 필요합니다.",
           "recordAudioAndroid": true
         }
       ],
@@ -54,6 +58,12 @@
     ],
     "experiments": {
       "typedRoutes": false
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4f241064-d294-4b51-a4d7-b81c681e2776"
+      }
     }
   }
 }

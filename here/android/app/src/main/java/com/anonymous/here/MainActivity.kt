@@ -1,4 +1,4 @@
-package com.anonymous.here
+package com.teamhere.here
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build
