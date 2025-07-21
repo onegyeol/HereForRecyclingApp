@@ -50,7 +50,6 @@ export default function ResultScreen() {
         GLASS: '유리',
         };
 
-
     useEffect(() => {
         if (!photoUri) return;
         Image.getSize(photoUri, (w, h) => {
