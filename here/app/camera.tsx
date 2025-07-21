@@ -46,13 +46,10 @@ export default function CameraScreen(): React.JSX.Element {
     try {
       setIsLoading(true);
   
-      const response = await fetch("13.125.125.218:5000/analyze", {
+      const response = await fetch("https://herefornetzero.com/analyze", {
         method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         body: formData,
-      });
+      });      
 
       const result = await response.json();
 

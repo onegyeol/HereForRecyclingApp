@@ -50,7 +50,6 @@ export default function ResultScreen() {
         GLASS: '유리',
         };
 
-
     useEffect(() => {
         if (!photoUri) return;
         Image.getSize(photoUri, (w, h) => {
@@ -61,7 +60,7 @@ export default function ResultScreen() {
     useEffect(() => {
         if (!resultUUID) return;
         let isMounted = true;
-        fetch(`http://13.125.125.218:5000/result/${resultUUID}`)
+        fetch(`https://herefornetzero.com/result/${resultUUID}`)
             .then((res) => res.json())
             .then((json) => {
                 console.log("받은 데이터:", json);
