@@ -29,7 +29,7 @@ export default function PlusModeScreen() {
     setResult('');
 
     try {
-      const res = await fetch('http://13.125.125.218:5000/plusmode', {
+      const res = await fetch('https://herefornetzero.com/plusmode', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ description }),
