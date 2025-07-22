@@ -50,6 +50,13 @@ export default function PlusModeScreen() {
     }
   };
 
+  const handleReplay = () => {
+    if (result.trim()) {
+      Speech.stop();
+      Speech.speak(result, { language: 'ko-KR', pitch: 1.0, rate: 1.0 });
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scroll}>
@@ -74,6 +81,19 @@ export default function PlusModeScreen() {
           <View style={styles.resultBox}>
             <Text style={styles.resultTitle}>분리배출 방법</Text>
             <Text style={styles.resultText}>{result}</Text>
+
+            <TouchableOpacity
+              onPress={handleReplay}
+              style={{
+                marginTop: 12,
+                padding: 10,
+                backgroundColor: '#2e4010',
+                borderRadius: 8,
+                alignItems: 'center',
+              }}
+            >
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>다시 듣기</Text>
+            </TouchableOpacity>
           </View>
         )}
       </ScrollView>
