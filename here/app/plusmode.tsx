@@ -10,8 +10,10 @@ import {
 } from 'react-native';
 import FooterNavigation from '../components/FooterNavigation';
 import * as Speech from 'expo-speech';
+import Slider from '@react-native-community/slider';
 
 export default function PlusModeScreen() {
+  const [fontSize, setFontSize] = useState(14); 
   const [description, setDescription] = useState('');
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
@@ -80,7 +82,22 @@ export default function PlusModeScreen() {
         {result !== '' && (
           <View style={styles.resultBox}>
             <Text style={styles.resultTitle}>분리배출 방법</Text>
-            <Text style={styles.resultText}>{result}</Text>
+
+            <View style={{ marginTop: 16 }}>
+                            <Text style={{ marginBottom: 8, fontSize: 13 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+                            <Slider
+                                style={{ width: 200, height: 40 }}
+                                minimumValue={12}
+                                maximumValue={24}
+                                step={1}
+                                value={fontSize}
+                                onValueChange={(value) => setFontSize(value)}
+                                minimumTrackTintColor="#2e4010"
+                                maximumTrackTintColor="#ccc"
+                            />
+                        </View>
+
+            <Text style={[styles.blockContent, { fontSize }]}>{result}</Text>
 
             <TouchableOpacity
               onPress={handleReplay}
@@ -147,6 +164,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'ChangwonDangamRound',
   },
+  blockContent: {
+    fontSize: 14,
+    fontFamily: 'ChangwonDangamRound',
+    lineHeight: 22,
+    color: '#555',
+},
   resultBox: {
     marginTop: 30,
     padding: 16,
