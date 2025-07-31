@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {v4 as uuidv4} from 'uuid';
 import {
   View,
   Text,
@@ -26,7 +27,11 @@ export default function PlusModeScreen() {
 }, []);
 
   const handleSubmit = async () => {
-    if (!description.trim()) return;
+    if (!description.trim() || loading) return;
+    setLoading(true);
+    setResult('');
+
+    const uuid = uuidv4();
     setLoading(true);
     setResult('');
 
@@ -34,7 +39,7 @@ export default function PlusModeScreen() {
       const res = await fetch('https://herefornetzero.com/plusmode', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ description }),
+        body: JSON.stringify({ description, uuid }),
       });
 
       const json = await res.json();

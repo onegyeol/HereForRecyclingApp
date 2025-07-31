@@ -11,6 +11,7 @@ import {
 import { usePhotoStore } from '../app/stores/ImageStores';
 import Svg, { Rect, Text as SvgText } from 'react-native-svg';
 import FooterNavigation from '../components/FooterNavigation';
+import { validate as uuidValidate } from 'uuid';
 import * as Speech from 'expo-speech'; // TTS 
 import Slider from '@react-native-community/slider'; // 슬라이더로 글자 사이즈 조정
 
@@ -58,7 +59,11 @@ export default function ResultScreen() {
         }, [photoUri]);
 
     useEffect(() => {
-        if (!resultUUID) return;
+        if (!resultUUID || !uuidValidate(resultUUID)) {
+            setLoading(false);
+            return;
+        }
+
         let isMounted = true;
         fetch(`https://herefornetzero.com/result/${resultUUID}`)
             .then((res) => res.json())

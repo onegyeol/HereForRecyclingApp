@@ -46,9 +46,9 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to access your camera</string>
+	<string>이 앱은 AI의 분리배출 방법 안내 제공을 위해 쓰레기 사진 촬영 시 카메라 권한이 필요합니다.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to access your microphone</string>
+	<string>이 앱은 AI의 분리배출 방법 안내 제공을 위해 마이크 권한이 필요합니다.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
