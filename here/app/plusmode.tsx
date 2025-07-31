@@ -78,7 +78,9 @@ export default function PlusModeScreen() {
           onChangeText={setDescription}
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <TouchableOpacity style={[styles.button, loading && styles.buttonDisabled]} 
+        onPress={handleSubmit}
+        disabled={loading}>
           <Text style={styles.buttonText}>AI에게 물어보기</Text>
         </TouchableOpacity>
 
@@ -162,6 +164,9 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
+  },
+  buttonDisabled: {
+    backgroundColor: '#999'
   },
   buttonText: {
     color: 'white',
