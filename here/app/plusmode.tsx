@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  ActivityIndicator
+  View, Text, TextInput, TouchableOpacity, StyleSheet,
+  ScrollView, ActivityIndicator
 } from 'react-native';
-import { usePhotoStore } from '../app/stores/ImageStores';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { v4 as uuidv4 } from 'uuid';
 import FooterNavigation from '../components/FooterNavigation';
 import * as Speech from 'expo-speech';
 import Slider from '@react-native-community/slider';
@@ -18,24 +14,42 @@ export default function PlusModeScreen() {
   const [description, setDescription] = useState('');
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
+  const [deviceId, setDeviceId] = useState<string | null>(null);
 
+  // 앱 최초 실행 시 UUID 생성 or 로드
   useEffect(() => {
-  return () => {
-    Speech.stop(); 
-    console.log("TTS 정지");
-  };
-}, []);
+    const initDeviceId = async () => {
+      let id = await AsyncStorage.getItem('device_id');
+      if (!id) {
+        id = uuidv4();
+        await AsyncStorage.setItem('device_id', id);
+        console.log('새 Device ID 생성:', id);
+      } else {
+        console.log('기존 Device ID 사용:', id);
+      }
+      setDeviceId(id);
+    };
+    initDeviceId();
 
+    return () => {
+      Speech.stop(); 
+      console.log("TTS 정지");
+    };
+  }, []);
 
   const handleSubmit = async () => {
-    if (!description.trim()) return;
+    if (!description.trim() || !deviceId) return;
+
     setLoading(true);
     setResult('');
   
     try {
       const res = await fetch('https://herefornetzero.com/plusmode', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-Device-ID': deviceId,  // ✅ Rate Limit용 헤더 추가
+        },
         body: JSON.stringify({ description }),
       });
 
@@ -43,6 +57,8 @@ export default function PlusModeScreen() {
       if (json.result) {
         setResult(json.result);
         Speech.speak(json.result, { language: 'ko-KR', pitch: 1.0, rate: 1.0 });
+      } else if (json.error) {
+        setResult(`⚠️ ${json.error}`);
       } else {
         setResult('응답을 받지 못했습니다.');
       }
@@ -76,8 +92,8 @@ export default function PlusModeScreen() {
         />
 
         <TouchableOpacity style={[styles.button, loading && styles.buttonDisabled]} 
-        onPress={handleSubmit}
-        disabled={loading}>
+          onPress={handleSubmit}
+          disabled={loading}>
           <Text style={styles.buttonText}>AI에게 물어보기</Text>
         </TouchableOpacity>
 
@@ -88,18 +104,18 @@ export default function PlusModeScreen() {
             <Text style={styles.resultTitle}>분리배출 방법</Text>
 
             <View style={{ marginTop: 16 }}>
-                            <Text style={{ marginBottom: 8, fontSize: 13 }}>글자 크기: {fontSize.toFixed(0)}</Text>
-                            <Slider
-                                style={{ width: 200, height: 40 }}
-                                minimumValue={12}
-                                maximumValue={24}
-                                step={1}
-                                value={fontSize}
-                                onValueChange={(value) => setFontSize(value)}
-                                minimumTrackTintColor="#2e4010"
-                                maximumTrackTintColor="#ccc"
-                            />
-                        </View>
+              <Text style={{ marginBottom: 8, fontSize: 13 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+              <Slider
+                style={{ width: 200, height: 40 }}
+                minimumValue={12}
+                maximumValue={24}
+                step={1}
+                value={fontSize}
+                onValueChange={(value) => setFontSize(value)}
+                minimumTrackTintColor="#2e4010"
+                maximumTrackTintColor="#ccc"
+              />
+            </View>
 
             <Text style={[styles.blockContent, { fontSize }]}>{result}</Text>
 
