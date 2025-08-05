@@ -127,7 +127,10 @@ export default function CameraScreen(): React.JSX.Element {
               style={styles.guideImage}
             />
             <Text style={styles.guideText}>
-              정확한 분류를 위해{"\n"}위 사진과 같이 촬영해 주세요!
+              정확한 인식을 위해{"\n"}위 사진과 같이 쓰레기를{"\n"}분리해 촬영해 주세요!{"\n"}{"\n"}
+              <Text style={{ fontSize: 14 }}>
+                ※ AI 모델이 모든 사물을 인식하는 것에는{"\n"}한계가 있어 결과가 부정확할 수 있어요. ※
+              </Text>
             </Text>
             <TouchableOpacity
               style={styles.closeButton}

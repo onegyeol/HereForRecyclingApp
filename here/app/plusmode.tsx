@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import {v4 as uuidv4} from 'uuid';
 import {
   View,
   Text,
@@ -9,6 +8,7 @@ import {
   ScrollView,
   ActivityIndicator
 } from 'react-native';
+import { usePhotoStore } from '../app/stores/ImageStores';
 import FooterNavigation from '../components/FooterNavigation';
 import * as Speech from 'expo-speech';
 import Slider from '@react-native-community/slider';
@@ -26,20 +26,17 @@ export default function PlusModeScreen() {
   };
 }, []);
 
+
   const handleSubmit = async () => {
-    if (!description.trim() || loading) return;
+    if (!description.trim()) return;
     setLoading(true);
     setResult('');
-
-    const uuid = uuidv4();
-    setLoading(true);
-    setResult('');
-
+  
     try {
       const res = await fetch('https://herefornetzero.com/plusmode', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ description, uuid }),
+        body: JSON.stringify({ description }),
       });
 
       const json = await res.json();
