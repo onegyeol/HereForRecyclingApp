@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
 import { useRouter } from 'expo-router';
 import FooterNavigation from '../components/FooterNavigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { v4 as uuidv4 } from 'uuid';
+
 const Main: React.FC = () => {
   const router = useRouter();
+  const [deviceId, setDeviceId] = useState<string | null>(null);
 
   const titleImage: ImageSourcePropType = require('../assets/images/text1.png');
   const cameraIcon: ImageSourcePropType = require('../assets/images/camera.png');
   const treeIcon: ImageSourcePropType = require('../assets/images/tree.png');
   const mainImage: ImageSourcePropType = require('../assets/images/mainImage.png');
+
+  // 앱 실행 시 UUID 생성 or 로드
+  useEffect(() => {
+    const initDeviceId = async () => {
+      let id = await AsyncStorage.getItem('device_id');
+      if (!id) {
+        id = uuidv4();
+        await AsyncStorage.setItem('device_id', id);
+        console.log('새 Device ID 생성:', id);
+      } else {
+        console.log('기존 Device ID 사용:', id);
+      }
+      setDeviceId(id);
+    };
+    initDeviceId();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
