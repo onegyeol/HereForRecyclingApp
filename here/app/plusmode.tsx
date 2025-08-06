@@ -16,20 +16,13 @@ export default function PlusModeScreen() {
   const [loading, setLoading] = useState(false);
   const [deviceId, setDeviceId] = useState<string | null>(null);
 
-  // 앱 최초 실행 시 UUID 생성 or 로드
-  useEffect(() => {
-    const initDeviceId = async () => {
-      let id = await AsyncStorage.getItem('device_id');
-      if (!id) {
-        id = uuidv4();
-        await AsyncStorage.setItem('device_id', id);
-        console.log('새 Device ID 생성:', id);
-      } else {
-        console.log('기존 Device ID 사용:', id);
-      }
+   useEffect(() => {
+    const loadDeviceId = async () => {
+      const id = await AsyncStorage.getItem('device_id');
       setDeviceId(id);
+      console.log('로드된 Device ID:', id);
     };
-    initDeviceId();
+    loadDeviceId();
 
     return () => {
       Speech.stop(); 
@@ -48,7 +41,7 @@ export default function PlusModeScreen() {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'X-Device-ID': deviceId,  // ✅ Rate Limit용 헤더 추가
+          'X-Device-ID': deviceId,  
         },
         body: JSON.stringify({ description }),
       });
