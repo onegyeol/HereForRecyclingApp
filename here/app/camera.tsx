@@ -10,20 +10,21 @@ import React, { useEffect, useRef, useState } from "react";
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, BackHandler} from "react-native";
 import { usePhotoStore } from '../app/stores/ImageStores';
 import FooterNavigation from '../components/FooterNavigation';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import {v4 as uuidv4} from 'uuid';
 
 
 export default function CameraScreen(): React.JSX.Element {
   const [permission, requestPermission] = useCameraPermissions();
   const [photoTaken, setPhotoTaken] = useState(false);
-  const [zoom, setZoom] = useState(0);
   const [showGuide, setShowGuide] = useState(true);
   const cameraRef = useRef<CameraView | null>(null);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { setPhotoUri, setResultUUID } = usePhotoStore();
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const [renderedImageSize, setRenderedImageSize] = useState<{ width: number, height: number }>({ width: 0, height: 0 });
 
   useEffect(() => {
     if (permission?.status !== "granted") {
@@ -97,14 +98,19 @@ export default function CameraScreen(): React.JSX.Element {
     navigation.setOptions?.({ gestureEnabled: !isLoading });
   }, [isLoading]);
 
+  if (!permission) {
+  return <View style={styles.container} />;
+}
+
   return (
     <View style={styles.container}>
       <CameraView
+        key={`${permission?.granted}-${isFocused}`} // 권한/포커스 바뀌면 강제 리마운트
         style={styles.camera}
-        zoom={Platform.OS === 'ios' ? 0.2 : 0}
         ref={cameraRef}
         facing="back"
-        ratio="4:3"
+        active={isFocused && !isLoading}            // 포커스 있을 때만 세션 활성화
+        onMountError={(e) => console.warn('Camera mount error:', e)}
       />
 
       {isLoading && (
@@ -178,16 +184,6 @@ const styles = StyleSheet.create({
     fontFamily: "ChangwonDangamRound",
     fontWeight: "bold",
     fontSize: 20,
-  },
-  navButtons: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 10,
-    paddingBottom: 24,
-    borderTopWidth: 1,
-    borderTopColor: "#ccc",
-    backgroundColor: "#fff",
-    width: "100%",
   },
   footerItem: {
     alignItems: "center",
