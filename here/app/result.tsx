@@ -161,12 +161,15 @@ export default function ResultScreen() {
 
                     {originalSize && containerSize && (
                     (() => {
+                        const basisWidth  = data.original_width  ?? originalSize.width;
+                        const basisHeight = data.original_height ?? originalSize.height;
+                        
                         const { actualWidth, actualHeight, offsetX, offsetY } =
-                        getImageActualLayout(originalSize, containerSize);
-
-                        const xRatio = actualWidth / originalSize.width;
-                        const yRatio = actualHeight / originalSize.height;
-
+                          getImageActualLayout({ width: basisWidth, height: basisHeight }, containerSize);
+                        
+                        const xRatio = actualWidth / basisWidth;
+                        const yRatio = actualHeight / basisHeight;
+                        
                         return (
                         <Svg
                             width={containerSize.width}
@@ -317,7 +320,7 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         width: '90%',
-        aspectRatio: 3 / 4,
+        aspectRatio:  9 / 16,
         position: 'relative',
         marginBottom: 20,
     },
