@@ -7,7 +7,7 @@ import {
 } from "expo-camera";
 import { useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, BackHandler} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View, BackHandler} from "react-native";
 import { usePhotoStore } from '../app/stores/ImageStores';
 import FooterNavigation from '../components/FooterNavigation';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
@@ -24,14 +24,13 @@ export default function CameraScreen(): React.JSX.Element {
   const { setPhotoUri, setResultUUID } = usePhotoStore();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
-  const [renderedImageSize, setRenderedImageSize] = useState<{ width: number, height: number }>({ width: 0, height: 0 });
 
   useEffect(() => {
     if (permission?.status !== "granted") {
       requestPermission();
     }
   }, [permission]);
-
+  
   const sendPhotoToServer = async (photoUri: string): Promise<void> => {
     const uuid = uuidv4();
     console.log("UUID:", uuid);
@@ -61,17 +60,20 @@ export default function CameraScreen(): React.JSX.Element {
       }
       else {
         console.log("error")
+        setIsLoading(false);
+        router.push("/main");
       }
 
 
     } catch (error) {
       console.error("서버 전송 실패:", error);
       alert("서버와의 연결 중 오류가 발생했습니다.");
+      router.push("/main");
     }
   };
 
   const takePhoto = async (): Promise<void> => {
-    if (cameraRef.current && !photoTaken) {
+    if (cameraRef.current && !photoTaken && !isLoading) {
       const photo: CameraCapturedPicture = await cameraRef.current.takePictureAsync();
       console.log("사진 URI:", photo.uri);
       setPhotoTaken(true);
@@ -105,11 +107,10 @@ export default function CameraScreen(): React.JSX.Element {
   return (
     <View style={styles.container}>
       <CameraView
-        key={`${permission?.granted}-${isFocused}`} // 권한/포커스 바뀌면 강제 리마운트
-        style={styles.camera}
         ref={cameraRef}
-        facing="back"
-        active={isFocused && !isLoading}            // 포커스 있을 때만 세션 활성화
+        key={permission?.granted ? 'camera-enabled' : 'camera-disabled'}
+        style={styles.camera}
+        active={isFocused && !isLoading}
         onMountError={(e) => console.warn('Camera mount error:', e)}
       />
 
