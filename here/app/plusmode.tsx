@@ -4,7 +4,6 @@ import {
   ScrollView, ActivityIndicator
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { v4 as uuidv4 } from 'uuid';
 import FooterNavigation from '../components/FooterNavigation';
 import * as Speech from 'expo-speech';
 import Slider from '@react-native-community/slider';
