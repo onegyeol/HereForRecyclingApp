@@ -1,7 +1,7 @@
 # HereForRecyclingApp
-이건 여기 : AI 분리배출 안내 애플리케이션 
+이건 여기 : AI 분리배출 안내 애플리케이션 <br/>
 카카오뱅크 에코실험실 2기 ♻️<br/>
-인스타 아이디 : @here_for_recycling <br/>
+인스타 아이디 : @here_for_recycling 
 
 ## 기술 스택
 [![stackticon](https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1748678698979?alt=media&token=bad367c5-b565-43a9-a13c-39c4d89f8117)](https://github.com/msdio/stackticon)
