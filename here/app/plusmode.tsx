@@ -72,12 +72,11 @@ export default function PlusModeScreen() {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scroll}>
-        <Text style={styles.title}>설명해줘 모드</Text>
+        <Text style={styles.title}>설명 모드</Text>
         <Text style={styles.subTitle}>어떤 쓰레기인지 설명해 주세요. {'\n'}AI가 설명해줄 거예요 ! </Text>
         <Text style={styles.ex}>예시: 일회용 커피컵은 어떻게 버려? 컵홀더랑 빨대가 있어 </Text>
         <TextInput
           style={styles.input}
-          placeholder="예: 커피 마신 컵, 종이 홀더, 플라스틱 빨대"
           multiline
           value={description}
           onChangeText={setDescription}
