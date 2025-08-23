@@ -48,14 +48,14 @@ const Main: React.FC = () => {
             style={[styles.button, { marginRight: 6 }]}
             onPress={() => router.navigate('/camera')}
           >
-            <Text style={styles.buttonText}>사진 찍기</Text>
+            <Text style={styles.buttonText}>사진 모드</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.button, { backgroundColor: '#6a8536', marginLeft: 6 }]}
             onPress={() => router.navigate('/plusmode')}
           >
-            <Text style={styles.buttonText}>설명해줘 모드</Text>
+            <Text style={styles.buttonText}>설명 모드</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     paddingHorizontal: 24,
-    marginTop: 8,
+    marginTop: 6,
   },
   buttonText: { color: '#fff', fontFamily: 'ChangwonDangamRound', fontWeight: 'bold', fontSize: 18 },
   footerItem: {
