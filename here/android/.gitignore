@@ -14,3 +14,15 @@ local.properties
 
 # Bundle artifacts
 *.jsbundle
+
+# 키/인증서 파일 전역 무시
+*.keystore
+*.jks
+*.p12
+*.pem
+*.der
+*.crt
+
+/keystores/**
+
+/android/upload_certificate.pem
