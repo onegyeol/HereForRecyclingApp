@@ -183,7 +183,6 @@ const styles = StyleSheet.create({
   captureText: {
     color: "#2e4010",
     fontFamily: "ChangwonDangamRound",
-    fontWeight: "bold",
     fontSize: 20,
   },
   footerItem: {
@@ -197,7 +196,6 @@ const styles = StyleSheet.create({
   footerText: {
     fontFamily: "ChangwonDangamRound",
     fontSize: 12,
-    fontWeight: "500",
     color: "#000",
   },
   guideModal: {

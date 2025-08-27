@@ -96,7 +96,7 @@ useEffect(() => {
           maximumTrackTintColor="#ccc"
           thumbTintColor="#2e4010"
         />
-        <Text style={{ fontSize: 18, marginBottom: 8 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+        <Text style={{ fontSize: 18, marginBottom: 8, fontFamily: 'ChangwonDangamRound'  }}>글자 크기: {fontSize.toFixed(0)}</Text>
       </View>
 
       <TouchableOpacity onPress={handleTTSButtonPress} style={styles.listenButton}>
@@ -151,12 +151,10 @@ const styles = StyleSheet.create({
   tabText_selected: {
     fontSize: 14,
     fontFamily: 'ChangwonDangamRound',
-    fontWeight: '600',
   },
   tabText: {
     fontSize: 14,
     fontFamily: 'ChangwonDangamRound',
-    fontWeight: '600',
     color: '#9E9E9E',
   },
   scrollContent: {
@@ -176,7 +174,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
     fontFamily: 'ChangwonDangamRound',
-    fontWeight: '600',
   },
   image: {
     width: 280,
@@ -217,7 +214,6 @@ const styles = StyleSheet.create({
   footerText: {
     fontFamily: 'ChangwonDangamRound',
     fontSize: 12,
-    fontWeight: '500',
     color: '#000',
   },
 });

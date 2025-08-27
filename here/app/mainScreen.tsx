@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
   infoButtonText: {
     fontSize: 16,
     color: '#333',
-    fontWeight: '600',
     fontFamily: 'ChangwonDangamRound',
   },
   container: { flex: 1, backgroundColor: '#fff', justifyContent: 'space-between'},
@@ -86,8 +85,8 @@ const styles = StyleSheet.create({
   mainImage: { width: 320, height: 320, marginTop: -30 },
   topSection: { marginTop: 70, alignItems: 'center', },
   middleSection: { alignItems: 'center', marginTop: -20 },
-  middleText: { fontSize: 30, fontFamily: 'ChangwonDangamRoundBold', color: '#333', fontWeight: '900', marginBottom: 10 },
-  subText: { fontSize: 21, fontFamily: 'ChangwonDangamRound', color: '#333', fontWeight: '700' },
+  middleText: { fontSize: 30, fontFamily: 'ChangwonDangamRoundBold', color: '#333', marginBottom: 10 },
+  subText: { fontSize: 21, fontFamily: 'ChangwonDangamRound', color: '#333' },
   bottomSection: { alignItems: 'center' },
   button: {
     backgroundColor: '#2e4010',
@@ -102,7 +101,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginTop: 6,
   },
-  buttonText: { color: '#fff', fontFamily: 'ChangwonDangamRound', fontWeight: 'bold', fontSize: 18 },
+  buttonText: { color: '#fff', fontFamily: 'ChangwonDangamRound',fontSize: 18 },
   footerItem: {
     alignItems: 'center',
   }

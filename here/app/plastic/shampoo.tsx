@@ -101,7 +101,7 @@ export default function ShampooGuide(): React.JSX.Element {
           maximumTrackTintColor="#ccc"
           thumbTintColor="#2e4010"
         />
-        <Text style={{ fontSize: 18, marginBottom: 8 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+        <Text style={{ fontSize: 18, marginBottom: 8, fontFamily: 'ChangwonDangamRound'  }}>글자 크기: {fontSize.toFixed(0)}</Text>
       </View>
 
       <TouchableOpacity onPress={handleTTSButtonPress} style={styles.listenButton}>
@@ -146,7 +146,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontFamily: 'ChangwonDangamRoundBold',
-    fontWeight: 'bold',
     marginBottom: 20,
   },
   tabContainer: {
@@ -164,7 +163,6 @@ const styles = StyleSheet.create({
   tabText_selected: {
     fontSize: 14,
     fontFamily: 'ChangwonDangamRound',
-    fontWeight: '600',
   },
   listenButton: {
     backgroundColor: '#2e4010',
@@ -180,12 +178,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
     fontFamily: 'ChangwonDangamRound',
-    fontWeight: '600',
   },
   tabText: {
     fontSize: 14,
     fontFamily: 'ChangwonDangamRound',
-    fontWeight: '600',
     color: '#9E9E9E',
   },
   scrollContent: {

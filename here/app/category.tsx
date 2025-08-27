@@ -17,7 +17,10 @@ export default function Category(): JSX.Element {
     <View style={styles.container}>
       <Text style={styles.title}>올바른 분리배출 방법</Text>
 
-      <ScrollView contentContainerStyle={styles.gridContainer}>
+      <ScrollView style={styles.scroll}
+        contentContainerStyle={styles.gridContainer}
+        showsVerticalScrollIndicator={true}
+      >
         <TouchableOpacity onPress={() => router.push('/plastic')} style={styles.item}>
           <Image source={require('../assets/images/plastic.jpg')} style={styles.image} />
         </TouchableOpacity>
@@ -58,11 +61,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontFamily: 'ChangwonDangamRoundBold',
-    fontWeight: 'bold',
     color: '#111',
     textAlign: 'center',
     marginBottom: 24,
-    marginTop: 100,
+    marginTop: 50,
+  },
+  scroll: {
+    flex: 1, // 남는 영역을 차지해서 세로 스크롤 가능
   },
   gridContainer: {
     justifyContent: 'center',
@@ -71,6 +76,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 16, 
     margin: 20,
+    paddingBottom: 60,
   },
   item: {
     backgroundColor: '#EEEEEE',
@@ -109,7 +115,6 @@ const styles = StyleSheet.create({
   footerText: {
     fontFamily: 'ChangwonDangamRound',
     fontSize: 12,
-    fontWeight: '500',
     color: '#000',
   },
 });
