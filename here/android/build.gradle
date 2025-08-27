@@ -1,4 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+// Use PATH's node unless overridden by env (EAS/로컬 둘 다 안전)
+ext {
+  NODE_BINARY = System.getenv("NODE_BINARY") ?: "node"
+}
+
 
 buildscript {
   repositories {
@@ -6,30 +11,24 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath('com.android.tools.build:gradle')
-    classpath('com.facebook.react:react-native-gradle-plugin')
-    classpath('org.jetbrains.kotlin:kotlin-gradle-plugin')
+    classpath("com.android.tools.build:gradle")
+    classpath("com.facebook.react:react-native-gradle-plugin")
+    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
   }
 }
 
-def reactNativeAndroidDir = new File(
-  providers.exec {
-    workingDir(rootDir)
-    commandLine("node", "--print", "require.resolve('react-native/package.json')")
-  }.standardOutput.asText.get().trim(),
-  "../android"
-)
+
+// ❗ Node 경로 추론( providers.exec / nodePath ) 제거하고 정적 경로 사용
+def reactNativeAndroidDir = file("$rootDir/../node_modules/react-native/android")
 
 allprojects {
   repositories {
-    maven {
-      // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-      url(reactNativeAndroidDir)
-    }
+    // React Native Android maven
+    maven { url(reactNativeAndroidDir) }
 
     google()
     mavenCentral()
-    maven { url 'https://www.jitpack.io' }
+    maven { url "https://www.jitpack.io" }
   }
 }
 
