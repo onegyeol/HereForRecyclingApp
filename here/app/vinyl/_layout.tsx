@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontFamily: 'ChangwonDangamRoundBold',
-    fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center'
   },

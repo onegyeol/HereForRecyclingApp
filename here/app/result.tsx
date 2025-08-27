@@ -238,7 +238,7 @@ export default function ResultScreen() {
                         <Text style={styles.blockTitle}>분리배출 방법</Text>
 
                         <View style={{ marginTop: 16 }}>
-                            <Text style={{ marginBottom: 8, fontSize: 13 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+                            <Text style={{ marginBottom: 8, fontSize: 13, fontFamily: 'ChangwonDangamRound' }}>글자 크기: {fontSize.toFixed(0)}</Text>
                             <Slider
                                 style={{ width: 200, height: 40 }}
                                 minimumValue={12}
@@ -272,7 +272,7 @@ export default function ResultScreen() {
                                 alignItems: 'center',
                             }}
                         >
-                            <Text style={{ color: 'white', fontWeight: 'bold' }}>다시 듣기</Text>
+                            <Text style={{ color: 'white', fontFamily: 'ChangwonDangamRound' }}>다시 듣기</Text>
                         </TouchableOpacity>
                     </View>
                 )}
@@ -293,7 +293,6 @@ const styles = StyleSheet.create({
     resultTitle: {
         fontSize: 30,
         fontFamily: 'ChangwonDangamRoundBold',
-        fontWeight: 'bold',
         color: '#d73a3a',
         marginBottom: 20,
         marginTop: 30,
@@ -307,7 +306,6 @@ const styles = StyleSheet.create({
     },
     blockTitle: {
         fontSize: 16,
-        fontWeight: 'bold',
         fontFamily: 'ChangwonDangamRoundBold',
         marginBottom: 8,
         color: '#333',

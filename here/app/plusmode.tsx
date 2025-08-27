@@ -95,7 +95,7 @@ export default function PlusModeScreen() {
             <Text style={styles.resultTitle}>분리배출 방법</Text>
 
             <View style={{ marginTop: 16 }}>
-              <Text style={{ marginBottom: 8, fontSize: 13 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+              <Text style={{ marginBottom: 8, fontSize: 13, fontFamily: 'ChangwonDangamRound'}}>글자 크기: {fontSize.toFixed(0)}</Text>
               <Slider
                 style={{ width: 200, height: 40 }}
                 minimumValue={12}
@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
   scroll: { padding: 24, paddingBottom: 100 },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
     color: '#2e4010',
     fontFamily: 'ChangwonDangamRoundBold',
     marginBottom: 10,
@@ -174,7 +173,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontWeight: 'bold',
     fontSize: 16,
     fontFamily: 'ChangwonDangamRound',
   },
@@ -192,7 +190,6 @@ const styles = StyleSheet.create({
   },
   resultTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
     marginBottom: 8,
     color: '#2e4010',
     fontFamily: 'ChangwonDangamRoundBold',

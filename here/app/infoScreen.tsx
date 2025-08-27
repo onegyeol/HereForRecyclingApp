@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
     color: '#2e4010',
     marginBottom: 10,
     fontFamily: 'ChangwonDangamRoundBold',
@@ -165,7 +164,6 @@ const styles = StyleSheet.create({
     },
   cardTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
     color: '#2e4010',
     marginBottom: 16,
     fontFamily: 'ChangwonDangamRoundBold',
@@ -177,7 +175,6 @@ const styles = StyleSheet.create({
     },
     valueTitle: {
     fontSize: 15,
-    fontWeight: 'bold',
     color: '#2e4010',
     fontFamily: 'ChangwonDangamRoundBold',
     },
@@ -216,7 +213,6 @@ const styles = StyleSheet.create({
   },
   memberName: {
     fontSize: 16,
-    fontWeight: '600',
     fontFamily: 'ChangwonDangamRound',
     color: '#2e4010',
   },

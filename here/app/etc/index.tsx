@@ -44,7 +44,7 @@ const EtcIndex: React.FC = () => {
             maximumTrackTintColor="#ccc"
             thumbTintColor="#2e4010"
           />
-          <Text style={{ fontSize: 18, marginBottom: 8 }}>글자 크기: {fontSize.toFixed(0)}</Text>
+          <Text style={{ fontSize: 18, marginBottom: 8, fontFamily: 'ChangwonDangamRound'  }}>글자 크기: {fontSize.toFixed(0)}</Text>
         </View>
 
         <View style={styles.contentBox}>
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontFamily: 'ChangwonDangamRoundBold',
-    fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 16,
   },
@@ -82,7 +81,6 @@ const styles = StyleSheet.create({
   tabText: {
     fontSize: 14,
     fontFamily: 'ChangwonDangamRound',
-    fontWeight: '600',
   },
   contentBox: {
     alignItems: 'center',
@@ -92,7 +90,6 @@ const styles = StyleSheet.create({
   mainText: {
     fontSize: 18,
     fontFamily: 'ChangwonDangamRound',
-    fontWeight: 'bold',
     marginBottom: 12,
     textAlign: 'center',
   },
