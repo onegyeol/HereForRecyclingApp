@@ -1,8 +1,10 @@
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@android:color/white"/>
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@android:color/white" />
     <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/splash" /> 
+        <inset android:inset="48.0dip">
+            <bitmap android:gravity="center" android:src="@drawable/splashscreen_logo" android:antialias="true" android:filter="true" />
+        </inset>
     </item>
 </layer-list>
