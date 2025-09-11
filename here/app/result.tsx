@@ -68,7 +68,7 @@ export default function ResultScreen() {
         fetch(`https://herefornetzero.com/result/${resultUUID}`)
             .then((res) => res.json())
             .then((json) => {
-                console.log("받은 데이터:", json);
+                // console.log("받은 데이터:", json);
                 setData(json);
                 setLoading(false);
 

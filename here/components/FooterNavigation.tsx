@@ -52,7 +52,7 @@ export default function FooterNavigation({ disabled = false }: FooterNavigationP
         style={styles.footerItem}
         disabled={disabled}
         onPress={() => {
-          if (!disabled && pathname !== '/info') {
+          if (!disabled && pathname !== '/infoScreen') {
             router.replace('/infoScreen');
           }
         }}

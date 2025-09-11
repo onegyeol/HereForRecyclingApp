@@ -24,6 +24,7 @@ export default function CameraScreen(): React.JSX.Element {
   const { setPhotoUri, setResultUUID } = usePhotoStore();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     if (permission?.status !== "granted") {
@@ -66,9 +67,9 @@ export default function CameraScreen(): React.JSX.Element {
 
 
     } catch (error) {
-      console.error("서버 전송 실패:", error);
-      alert("서버와의 연결 중 오류가 발생했습니다.");
-      router.push("/main");
+      // console.error("서버 전송 실패:", error);
+      setIsLoading(false);
+      setErrorMsg("네트워크 연결이 불안정합니다.\n다시 시도해주세요.");
     }
   };
 
@@ -125,7 +126,19 @@ export default function CameraScreen(): React.JSX.Element {
           </View>
         </View>
       )}
-
+      {errorMsg !== "" && (
+        <View style={styles.errorOverlay} pointerEvents="auto">
+          <View style={styles.errorBox}>
+            <Text style={styles.errorText}>{errorMsg}</Text>
+            <TouchableOpacity
+              style={styles.errorCloseButton}
+              onPress={() => setErrorMsg("")} 
+            >
+              <Text style={styles.errorCloseText}>닫기</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
       {showGuide && (
         <BlurView intensity={60} tint="dark" style={StyleSheet.absoluteFill}>
           <View style={styles.guideModal}>
@@ -172,7 +185,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",               
     width: 80,
     height: 50,
-    borderRadius: 10,                      
+    borderRadius: 10,                     
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",                 
@@ -244,4 +257,36 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'ChangwonDangamRound',
   },
+  errorOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 9999, 
+  },
+  errorBox: {
+    backgroundColor: "#fff",
+    padding: 30,
+    borderRadius: 10,
+    alignItems: "center",
+    maxWidth: "80%",
+  },
+  errorText: {
+    fontFamily: "ChangwonDangamRound",
+    fontSize: 18,
+    color: "#000",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  errorCloseButton: {
+    backgroundColor: "#2e4010",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+  },
+  errorCloseText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+
 });
