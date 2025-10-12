@@ -17,7 +17,7 @@ https://apps.apple.com/us/app/%EC%9D%B4%EA%B1%B4%EC%97%AC%EA%B8%B0/id6748385764?
 
 - React Native Expo version : 0.24.13
 - node.js version : 18.20.8
-- Gemma version : gemma3 1b (`https://huggingface.co/google/gemma-3-1b-it`)
+- LLM : gemini-2.0-flash
 - Yolo version : 5
 
 ### 프로토타입
