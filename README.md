@@ -11,25 +11,30 @@ https://play.google.com/store/apps/details?id=com.teamhere.here
 - App Store <br>
 https://apps.apple.com/us/app/%EC%9D%B4%EA%B1%B4%EC%97%AC%EA%B8%B0/id6748385764?l=ko
 
-## 모델
+<br/>
+
+### 실행 환경
+- iOS : iOS 15.1 이상 필요
+- Android : Android 7.0 이상 필요
+<br/>
+
 ### 기술 스택
 [![stackticon](https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1748678698979?alt=media&token=bad367c5-b565-43a9-a13c-39c4d89f8117)](https://github.com/msdio/stackticon)
 
-- React Native Expo version : 0.24.13
-- node.js version : 18.20.8
+- React Native (v0.79.2), Expo (v53.0.7)
 - LLM : gemini-2.0-flash
-- Yolo version : 5
-
-### 프로토타입
-<img width="938" alt="스크린샷 2025-05-31 오후 5 03 29" src="https://github.com/user-attachments/assets/c5a2b1cb-782f-4ed7-a5da-73e534710790" />
+<br/>
 
 ### 시스템 아키텍처
-<img width="760" alt="스크린샷 2025-06-11 오후 2 44 10" src="https://github.com/user-attachments/assets/3ad2e7b7-4ed7-4094-88c5-3e9928cef867" />
+<img width="623" height="387" alt="image" src="https://github.com/user-attachments/assets/17a65a31-d7cf-4680-aae1-d88dca23e4e4" />
+
+
 
 ### YOLO 모델
 - 데이터셋 : Kaggle, Roboflow Universe
-- Yolo v5 사용
+- YOLOv5 사용
 
+  
 <img width="816" alt="스크린샷 2025-06-11 오후 2 44 32" src="https://github.com/user-attachments/assets/97a99749-f253-49ae-ae57-ac04ac964791" />
 
 ![image](https://github.com/user-attachments/assets/21377a62-a1b8-41f4-bbcb-ee11804884b3)
