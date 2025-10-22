@@ -26,8 +26,8 @@ https://apps.apple.com/us/app/%EC%9D%B4%EA%B1%B4%EC%97%AC%EA%B8%B0/id6748385764?
 <br/>
 
 ### 시스템 아키텍처
-<img width="623" height="387" alt="image" src="https://github.com/user-attachments/assets/17a65a31-d7cf-4680-aae1-d88dca23e4e4" />
 
+<img width="798" height="484" alt="스크린샷 2025-10-22 오후 8 53 31" src="https://github.com/user-attachments/assets/e7f5b46d-f360-44f6-abdb-de3016010965" />
 
 
 ### YOLO 모델
